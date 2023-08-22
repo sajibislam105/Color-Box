@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6521a517ad649c8a0dbd5343ac35a9a, type: 3}
+  m_Name: Money
+  m_EditorClassIdentifier: 
+  resourceId: 2
+  unitPreviewSprite: {fileID: 21300000, guid: 4459ce234207ea04991b700cf0b7304b, type: 3}
+  unitPreviewObject: {fileID: 8036944688558815950, guid: 4239dc4a41d614343b72376f6ede3e44, type: 3}
+  unitCollectibleObject: {fileID: 3044945092968229316, guid: 52fa598f0c906b645b7580e8dc227740, type: 3}

@@ -1,0 +1,18 @@
+{
+    "name": "Gameloops.Economy.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:925ccbeae1cbb7247a14f3b127a5f7cc"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
