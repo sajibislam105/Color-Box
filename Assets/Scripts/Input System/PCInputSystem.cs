@@ -1,12 +1,13 @@
-using System;
-using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
 public class PCInputSystem : MonoBehaviour , IInputSystem
 {
     [Inject] private Camera _camera;
+    [Inject] private SignalBus _signalBus;
     private GameObject _selectedGameObject;
+    private int _instanceId;
+
     private void Update()
     {
         InputSystem();
@@ -19,38 +20,37 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
             var hit =CastRay();
             if (hit.HasValue)
             {
-                if (hit.Value.collider.gameObject.CompareTag("Player"))
+                if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
                 {
-                    _selectedGameObject = hit.Value.collider.gameObject;
-                    Debug.Log(_selectedGameObject.name + " Selected");
+                    _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
+                    _instanceId = _selectedGameObject.GetInstanceID();
+                    //Debug.Log(_selectedGameObject.name + " Selected");
                 }
-
-                if (_selectedGameObject != null)
-                {
-                    var GridCellGameObject = hit.Value.collider.gameObject; 
-                    if (GridCellGameObject.CompareTag("GridCell"))
-                    {
-                        var gridCellPositionForObjectNewDestination = hit.Value.collider.transform.position;
-                        gridCellPositionForObjectNewDestination.y = +0.4f;
-                        //check if Cell is occupied or not
-                        if (GridCellGameObject.GetComponent<GridCellScript>().IsOccupied == false)
-                        {
-                            _selectedGameObject.transform.DOMove(gridCellPositionForObjectNewDestination, 1f).SetEase(Ease.Linear);
-                            Debug.Log("Reached Destination");
-                        }
-                        else
-                        {
-                            Debug.Log("Grid Cell already occupied");
-                        }
-                    }    
-                }
-                
-            }
-            else
-            {
-                _selectedGameObject = null;
             }
         }
+
+        if (_selectedGameObject != null)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                var hit = CastRay();
+                if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
+                {
+                    var NewDestination = hit.Value.point;
+                    //send transform to ai destination
+                    _signalBus.Fire(new ColorBoxSignals.SendNewDestinationToAiSignal()
+                    {
+                        newDestinationTransform = NewDestination, instanceID = _instanceId,
+                    });
+                    //Debug.Log("Position send " + NewDestination);
+                    _selectedGameObject = null;
+                }
+            }            
+        }
+        else
+        {
+          //  Debug.Log("No objectSelected");
+        } 
     }
 
     private RaycastHit? CastRay()
@@ -58,7 +58,7 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
         var mousePositionInScreen = Input.mousePosition;
         Ray ray = _camera.ScreenPointToRay(mousePositionInScreen);
         RaycastHit hit;
-        Debug.DrawRay(ray.origin,ray.direction * 20f,Color.red);
+        Debug.DrawRay(ray.origin,ray.direction * 50f,Color.red);
         if (Physics.Raycast(ray,out hit))
         {
             return hit;

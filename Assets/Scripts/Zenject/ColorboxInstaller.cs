@@ -17,7 +17,7 @@ public class ColorboxInstaller : MonoInstaller
         SignalBusInstaller.Install(Container);
         
         //input system scripts signals
-        //Container.DeclareSignal<TripleMatchSignals.ObjectDroppingOnCellSignal>();
+        Container.DeclareSignal<ColorBoxSignals.SendNewDestinationToAiSignal>();
 
     }
 }
