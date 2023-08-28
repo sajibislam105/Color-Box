@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAwIezcO+gMjwIAAJcFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVNtuGjEQ/RXk57baJWlS+tZCQlopCQqt8lDyYOxZ1sJrr3wJkIh/74x3yS6kUiUkL2fOzJy52K9MGV+DCNZNnZK3VgL7OmD0zT4MOuMNbPnKmrl6gQPnUclQEoknzgMPyiKek5u3FQSnxDez0kTOEIxGFdZVV3IFY+uDR7jg2gOanA3kbRB6HbBt67Brzxc6B3v8EmACuP+xohGaVzVIUtuR8wM7b2gG62gZpFlYrZVvRbCwq1ORY177iCUgQSqORaX0xC9BrcqAf4Z95/ui8BBaSY7vJsphb5qo7LttGlZxv250PXMdKc/FeZLUxLx9Z/6SrIWz1c0ha55RhlAqsX7gO8F96PWzD0+OZUez4XrNlxoeSzB3dupsNBKNwUVyjR6Gk16ot8rGJYh1x2uknoCxfj+bvJvNPtW+HWtVLQn5dN4Ac21Tt0fkAw7n8gMFp43wbSREScRvD7/4qr86reFaOR/Q1CY0pG5poyMqu8YP6ruIYWydgYS2kmswXIfdDKOE0/md2HpZTyzXnO5Im7u1HVb/xCXBHT/LTkwzu+lm5eFnrOqZVSbMgTtR9uL50m5uwZf3MWhloKuIDHfYw7E1ptk9/w+3eXQFFz23ANsQHUx44OkGoCZcEtl3xTYmDxO1pn1MVVDwP1gF/Z6oySXHvDrB7M6adHeOzifag1VU8njJ2Xk+kiCyTOSXGSxh+bE4g0wWl6OzvLj4zEdDlq6BMthzrmdN09pR4QL152Nw5w/v2GDqeJ3unXR8M1Uvle3NX5nCzoUDMPfHITw4zILvg7ySCuucQwjKpN1jrwumrViDXLwFWqTOXm2D44suyoLV6tkGQhZsnF6vBSP47VrNHDwr2FDyQ7A92/8FUEsDBBQAAAgIAAAwIexKUeEZbQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jO00FFQSi9KLMgoBooYgjilmSkgdrSSiaFlSmqygUGyoblBalJqkm6acapBSpq5pbFhmplpoqWRUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAwIezcO+gMjwIAAJcFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAwIexKUeEZbQAAAHgAAAAJACQAAAAAAAAAAAAAANwCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAlAMAAAAA
+    dataString: UEsDBBQAAAgIAAAwIez9tuL7kAIAAJYFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVNtuGjEQ/RXk57baJWlS+tZCQlopCQqt8lDyYOxZ1sJrr3wJkIh/74x3YTekUiUkL2fOzJy52K9MGV+DCNZNnZK3VgL7OmD0zT4MOuMNbPnKmrl6gQPnUclQEoknzgMPyiKek5u3FQSnxDez0kTOEIxGFdZVV3IFY+uDR7jg2gOanA3kbRB6HbBt67Brzxc6B3v8EmACuP+xohGaVzVIUtuR8wM7b2gG62gZpFlYrZVvRbCwq1ORY177iCUgQSqORaX0xC9BrcqAf4Z95/ui8BBaSY7vJsphb5qo7LttGlZxv250PXMdKc/FeZLUxLx9Z/6SrIWz1c0ha55RhlAqsX7gO8F96PWzD0/eyo5mw/WaLzU8lmDu7NTZaCQag4vkGj0MJ71Qx8rGJYh1x2uknoCxfj+bvJvNPtW+HWtVLQn5dN4Ac21Tt0fkAw7n8gMFp43wbSREScRvD7/4qr86reFaOR/Q1CY0pG5poyMqu8YP6ruIYWydgYS2kmswXIfdDKOE0/md2HpZTyzXnO5Im7u1HVb/xCXBHT/LTkwzu+lm5eFnrOqZVSbMgTtR9uL50m5uwZf3MWhloKuIDHfYw7E1ptk9/w+3eXQFFz23ANsQHUx44OkGoCZcEtl3xTYmDxO1pn1MVVDwP1gF/Z6oySXHvDrB7M6adHfenE+0B6uo5NslZ+f5SILIMpFfZrCE5cfiDDJZXI7O8uLiMx8NWboGymDPuZ41TWtHhQtkuloMrvzhGRtMHa/TtZOOb6bqpbK98StT2LlwAOa+iXAsFhwmwedBXkmFZc4hBGXS6rHXBdNWrEEujoEWqbFX2+D4oouyYLV6toGQBRunx2vBCD7eqpmDZwUbSn4Itmf7v1BLAwQUAAAICAAAMCHsSlHhGW0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IztNBRUEovSizIKAaKGII4pZkpIHa0komhZUpqsoFBsqG5QWpSapJumnGqQUqauaWxYZqZaaKlkVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAMCHs/bbi+5ACAACWBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAMCHsSlHhGW0AAAB4AAAACQAkAAAAAAAAAAAAAADdAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAJUDAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -502,7 +502,7 @@ MonoBehaviour:
   - 31
   heuristic: 2
   heuristicScale: 1
-  threadCount: 1
+  threadCount: 8
   maxFrameTime: 10
   batchGraphUpdates: 0
   graphUpdateBatchingInterval: 0.2
@@ -511,7 +511,7 @@ MonoBehaviour:
     seed: 0
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
-  showGraphs: 0
+  showGraphs: 1
 --- !u!1 &516726240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1303,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1505784352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505784354}
+  - component: {fileID: 1505784353}
+  m_Layer: 0
+  m_Name: GridNodeInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1505784353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505784352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 147ee811bb983c746993814779e0071a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _allNodes
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Pathfinding.GraphNode, AstarPathfindingProject]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _allNodesCustom: []
+--- !u!4 &1505784354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505784352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1665999882
 GameObject:

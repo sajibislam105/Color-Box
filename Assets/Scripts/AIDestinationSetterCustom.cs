@@ -5,7 +5,6 @@ using UnityEngine;
 using Zenject;
 
 
-//[UniqueComponent(tag = "ai.destination")]
 public class AIDestinationSetterCustom : MonoBehaviour
 {
     [SerializeField] private  Vector3 target;
@@ -21,10 +20,6 @@ public class AIDestinationSetterCustom : MonoBehaviour
     void OnEnable () 
     {
         ai = GetComponent<IAstarAI>();
-        // Update the destination right before searching for a path as well.
-        // This is enough in theory, but this script will also update the destination every
-        // frame as the destination is used for debugging and may be used for other things by other
-        // scripts as well. So it makes sense that it is up to date every frame.
         _signalBus.Subscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(SetDestination);
         if (ai != null) ai.onSearchPath += Update;
     }
@@ -58,11 +53,9 @@ public class AIDestinationSetterCustom : MonoBehaviour
         {
             target = position;
             if (target != null && ai != null) ai.destination = target;
-            //NodeIndex();
         }
         else
         {
-            //Debug.Log("different instance Id");
         }
 
         var count = iAgent.NeighbourCount;
@@ -72,11 +65,9 @@ public class AIDestinationSetterCustom : MonoBehaviour
     [Button]
     void NodeIndex( )
     {
-        //Find the closest node to this GameObject's position
         GraphNode node = AstarPath.active.GetNearest (target).node;
         if (node.Walkable)
         {
-           // Debug.Log("Node Position: " + node.position + " Node Index: "+ node.NodeIndex);
         }
     }
 }
