@@ -1,73 +1,119 @@
 using Pathfinding;
-using Pathfinding.RVO;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
-
 
 public class AIDestinationSetterCustom : MonoBehaviour
 {
     [SerializeField] private  Vector3 target;
     
     [Inject] private SignalBus _signalBus;
+    [Inject] private GridNodeInformation _gridNodeInformation;
     
-    IAstarAI ai;
-    
-    IAgent iAgent;
+    private IAstarAI _ai;
 
-    private Vector3 _destinationPosition;
+    public GraphNode TargetNode;
 
     void OnEnable () 
     {
-        ai = GetComponent<IAstarAI>();
-        _signalBus.Subscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(SetDestination);
-        if (ai != null) ai.onSearchPath += Update;
+        if (_ai != null) _ai.onSearchPath += Update;
+        _signalBus.Subscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
     }
 
     void OnDisable () 
     {
-        _signalBus.Unsubscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(SetDestination);
-        if (ai != null) ai.onSearchPath -= Update;
+        if (_ai != null) _ai.onSearchPath -= Update;
+        _signalBus.Unsubscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
     }
 
     private void Start()
     {
-        
-        ai.destination = transform.position;
-        
-        
-    }
-    void Update ()
-    {
-       //if (target != null && ai != null) ai.destination = target;
-      
-    }
+        _ai = GetComponent<IAstarAI>();
+        _ai.destination = transform.position;
 
-
-    private void SetDestination(ColorBoxSignals.SendNewDestinationToAiSignal sendNewDestinationToAiSignalTransform)
+    }
+    private void Update ()
     {
-        Vector3 position = sendNewDestinationToAiSignalTransform.newDestinationTransform;
+       //if (target != null && _ai != null) _ai.destination = target;
+    }
+    
+    private void CheckDestinationStatus(ColorBoxSignals.SendNewDestinationToAiSignal sendNewDestinationToAiSignalTransform)
+    {
+        Vector3 targetDestinationPosition = sendNewDestinationToAiSignalTransform.newDestinationTransform;
         var rcvdInstanceID = sendNewDestinationToAiSignalTransform.instanceID;
-        var thisId =gameObject.GetInstanceID();
-        if (rcvdInstanceID == thisId)
+        var thisGameObjectInstanceID =gameObject.GetInstanceID();
+        
+        GraphNode currentNode = AstarPath.active.GetNearest (transform.position).node; // current Node Position
+        target = targetDestinationPosition;
+        GraphNode destinationNode = AstarPath.active.GetNearest (target).node;
+        TargetNode = destinationNode;
+        if (TargetNode == null)
         {
-            target = position;
-            if (target != null && ai != null) ai.destination = target;
+            Debug.Log("Target Node Null");
         }
-        else
+        if (rcvdInstanceID == thisGameObjectInstanceID)
         {
+            //check if the node is occupied or not.
+            if (NodeOccupancyStatusCheck(destinationNode.NodeIndex))
+            {
+                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].GettingOccupied(null);
+                _gridNodeInformation.AllNodesCustom[currentNode.NodeIndex].isOccupied = false; // when leaving the node
+                //Invoking set destination
+                SetDestination((Vector3)destinationNode.position);
+                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].isOccupied = true;
+                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].GettingOccupied(gameObject);
+                //NodeIndexNumber();
+                
+                //sending this to Neighbor Status class
+                if (TargetNode != null)
+                {
+                    Debug.Log("sending this to Neighbor Status class");
+                    _signalBus.Fire(new ColorBoxSignals.SendNodeInformationToNeighborStatusSignal()
+                    {
+                        //issue here
+                        targetNode = TargetNode
+                    });
+                    Debug.Log("Signal Fired and Sent");
+                }
+                else
+                {
+                    Debug.Log("Target node sent null");
+                }
+            }
+            
+            
+            
         }
-
-        var count = iAgent.NeighbourCount;
-        Debug.Log(count);
     }
 
-    [Button]
-    void NodeIndex( )
+    private void SetDestination(Vector3 targetDestinationPosition)
+    {
+        if (target != null && _ai != null) _ai.destination = targetDestinationPosition;
+        //invoke neighborStatus
+    }
+   
+    private void NodeIndexNumber( )
     {
         GraphNode node = AstarPath.active.GetNearest (target).node;
         if (node.Walkable)
         {
+            Debug.Log($"Node Index {node.NodeIndex}");
         }
     }
+
+    private bool NodeOccupancyStatusCheck(int index)
+    {
+        var allNodesCustom = _gridNodeInformation.AllNodesCustom;
+        if (allNodesCustom[index].isOccupied)
+        {
+           //Debug.Log("occupied");
+           return false;
+        }
+        else
+        {
+            //Debug.Log("Not Occupied / Empty");
+            return true;
+        }
+    }
+    
 }

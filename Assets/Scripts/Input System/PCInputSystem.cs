@@ -18,14 +18,11 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
         if (Input.GetMouseButtonDown(0))
         {
             var hit =CastRay();
-            if (hit.HasValue)
+            if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
             {
-                if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
-                {
-                    _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
-                    _instanceId = _selectedGameObject.GetInstanceID();
-                    //Debug.Log(_selectedGameObject.name + " Selected");
-                }
+                _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
+                _instanceId = _selectedGameObject.GetInstanceID();
+                //Debug.Log(_selectedGameObject.name + " Selected");
             }
         }
 
