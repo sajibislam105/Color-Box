@@ -54,9 +54,8 @@ public class GridNodeInformation : SerializedMonoBehaviour
             }    
         }
     }*/
-    
-    
-    
+
+
 }
 [Serializable]
 public class NodeWrapper
@@ -90,5 +89,15 @@ public class NodeWrapper
     {
         OccupiedBy = gameObject;
     }
-    
+
+    public void ClearingNode()
+    {
+        //Debug.Log("Called");
+        OccupiedBy = null;
+        isOccupied = false;
+        if (OccupiedBy == null && !isOccupied)
+        {
+            //Debug.Log("Node Cleared");
+        }
+    }
 }

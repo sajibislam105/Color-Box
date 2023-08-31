@@ -1,3 +1,4 @@
+using System;
 using Pathfinding;
 using UnityEngine;
 using Zenject;
@@ -8,7 +9,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
     
     [Inject] private SignalBus _signalBus;
     [Inject] private GridNodeInformation _gridNodeInformation;
-    
+
     private IAstarAI _ai;
 
     public IAstarAI AI
@@ -31,6 +32,11 @@ public class AIDestinationSetterCustom : MonoBehaviour
         _signalBus.Unsubscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
     }
 
+    private void OnDestroy()
+    {
+        //_gridNodeInformation.AllNodesCustom[TargetNode.NodeIndex].ClearingNodeOccupiedObject();
+    }
+
     private void Start()
     {
         _ai = GetComponent<IAstarAI>();
@@ -51,7 +57,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
                    GameObject = gameObject,
                    targetNode = TargetNode
                });
-               Debug.Log("Signal Fired and Sent");
+               //Debug.Log("Signal Fired and Sent");
            }
            else
            {
@@ -79,8 +85,8 @@ public class AIDestinationSetterCustom : MonoBehaviour
             //check if the node is occupied or not.
             if (NodeOccupancyStatusCheck(destinationNode.NodeIndex))
             {
-                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].GettingOccupied(null);
                 _gridNodeInformation.AllNodesCustom[currentNode.NodeIndex].isOccupied = false; // when leaving the node
+                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].OccupiedBy = null;
                 //Invoking set destination
                 SetDestination((Vector3)destinationNode.position);
                 _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].isOccupied = true;
@@ -103,7 +109,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
         //Debug.Log($"Agent position now {_ai.position} and Target Position {(Vector3)TargetNode.position}");
         if (TargetNode != null && (_ai.position == (Vector3)TargetNode.position))
         {
-            Debug.Log("Agent Destination Reached");
+            //Debug.Log("Agent Destination Reached");
             return true;
         }
         return false;
@@ -112,10 +118,10 @@ public class AIDestinationSetterCustom : MonoBehaviour
     private bool NodeOccupancyStatusCheck(int index)
     {
         var allNodesCustom = _gridNodeInformation.AllNodesCustom;
-        if (allNodesCustom[index].isOccupied)
+        if (allNodesCustom[index].isOccupied && allNodesCustom[index].OccupiedBy != null)
         {
-           //Debug.Log("occupied");
-           return false;
+            //Debug.Log("occupied");
+            return false;
         }
         else
         {

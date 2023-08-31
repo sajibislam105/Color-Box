@@ -76,9 +76,10 @@ public class NeighborStatus : MonoBehaviour
                             // now check my My agent and see if it has the same color. if same then call Merge method.
                             if ( ((AgentNode.NodeIndex+10) == customNeighborNodeOfAgent.graphNode.NodeIndex) || ((AgentNode.NodeIndex-10) == customNeighborNodeOfAgent.graphNode.NodeIndex) || ((AgentNode.NodeIndex+1) == customNeighborNodeOfAgent.graphNode.NodeIndex) || ((AgentNode.NodeIndex-1) == customNeighborNodeOfAgent.graphNode.NodeIndex))
                             {
-                                //Debug.Log("The index number of neighbor node: " + customNeighborNodeOfAgent.graphNode.NodeIndex);
+                                
+                                Debug.Log("The index number of neighbor node: " + customNeighborNodeOfAgent.graphNode.NodeIndex);
                                 //calling merge method
-                                //Debug.Log($"The object that is going to merge now {_occupiedByGameObject.gameObject.name}");
+                                Debug.Log($"The object that is going to merge now {_occupiedByGameObject.gameObject.name}");
                                 CheckAndMergeColorBox(_occupiedByGameObject.gameObject);
                             }
                         }
@@ -90,19 +91,34 @@ public class NeighborStatus : MonoBehaviour
 
     private void CheckAndMergeColorBox(GameObject NeighborGameobject)
     {
-            /*Debug.Log("Neighbor GameObject Name: " +NeighborGameobject.gameObject.name);
-            Debug.Log("Agent GameObject Name: " +_aiDestinationSetterCustom.gameObject.name);
-            Debug.Log("Neighbor GameObject Color: " +NeighborGameobject.GetComponent<Item>().MaterialColor);
-            Debug.Log("Agent GameObject color: " + _aiDestinationSetterCustom.gameObject.GetComponent<Item>().MaterialColor);*/
+        /*Debug.Log("Neighbor GameObject Name: " +NeighborGameobject.gameObject.name);
+        Debug.Log("Agent GameObject Name: " +_aiDestinationSetterCustom.gameObject.name);
+        Debug.Log("Neighbor GameObject Color: " +NeighborGameobject.GetComponent<Item>().MaterialColor);
+        Debug.Log("Agent GameObject color: " + _aiDestinationSetterCustom.gameObject.GetComponent<Item>().MaterialColor);*/
             if (_aiDestinationSetterCustom.gameObject.GetComponent<Item>().MaterialColor == NeighborGameobject.GetComponent<Item>().MaterialColor)
             {
                 /*Debug.Log($"Agent name is {_aiDestinationSetterCustom.gameObject.GetComponent<Item>().name} and it matched with {NeighborGameobject.gameObject.name}");
                 Debug.Log($"Agent color is {_aiDestinationSetterCustom.gameObject.GetComponent<Item>().MaterialColor} and color matched with {NeighborGameobject.gameObject.GetComponent<Item>().MaterialColor}");*/
+
+                var NeighbourAgentNodeWrapper = _gridNodeInformation.AllNodesCustom[NeighborGameobject.GetComponent<AIDestinationSetterCustom>().TargetNode.NodeIndex];
+                if (NeighbourAgentNodeWrapper != null)
+                {
+                    Debug.Log("Index Number of Neighbour Node:" +  NeighbourAgentNodeWrapper.OccupiedBy);
+                    NeighbourAgentNodeWrapper.ClearingNode();
+                    NeighborGameobject.gameObject.SetActive(false);
+                    Destroy(NeighborGameobject.gameObject);
+                }
+                var agentNodeWrapper = _gridNodeInformation.AllNodesCustom[_aiDestinationSetterCustom.TargetNode.NodeIndex];
+                if (agentNodeWrapper != null)
+                {
+                    //Debug.Log("Index Number of Agent Node:" +  agentNodeWrapper);
+                    agentNodeWrapper.ClearingNode();
+                    gameObject.SetActive(false);
+                    Destroy(gameObject);    
+                }
+
                 
-                Destroy(gameObject);
-                Destroy(NeighborGameobject.gameObject);
-                Debug.Log( "Both Destroyed");
-                
+                //Debug.Log( "Both Destroyed");
             }
             else
             {
