@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ModestTree;
 using UnityEngine;
 using Pathfinding;
 using Sirenix.OdinInspector;
@@ -35,7 +34,6 @@ public class GridNodeInformation : SerializedMonoBehaviour
             //TODO Get player positions and set them to occupied
         }
     }
-
     /*[Button]
     public void LogNeighborOfNode(int index)
     {

@@ -11,6 +11,7 @@ public abstract class ColorBoxSignals : MonoBehaviour
 
    public class SendNodeInformationToNeighborStatusSignal
    {
+      public GameObject GameObject;
       public GraphNode targetNode;
    }
 }

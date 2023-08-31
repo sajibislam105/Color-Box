@@ -1,5 +1,4 @@
 using Pathfinding;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -12,17 +11,23 @@ public class AIDestinationSetterCustom : MonoBehaviour
     
     private IAstarAI _ai;
 
+    public IAstarAI AI
+    {
+        get { return _ai; }
+    }
+    
     public GraphNode TargetNode;
 
     void OnEnable () 
     {
-        if (_ai != null) _ai.onSearchPath += Update;
+        //if (_ai != null) _ai.onSearchPath += Update;
         _signalBus.Subscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
     }
 
     void OnDisable () 
     {
-        if (_ai != null) _ai.onSearchPath -= Update;
+        //if (_ai != null) _ai.onSearchPath -= Update;
+        
         _signalBus.Unsubscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
     }
 
@@ -30,11 +35,29 @@ public class AIDestinationSetterCustom : MonoBehaviour
     {
         _ai = GetComponent<IAstarAI>();
         _ai.destination = transform.position;
-
     }
     private void Update ()
     {
        //if (target != null && _ai != null) _ai.destination = target;
+       if (CheckDestinationReached())
+       {
+           if (TargetNode != null)
+           {
+               //Debug.Log($"Agent position is in target Position {_ai.reachedDestination}");
+               //sending this to Neighbor Status class
+               //Debug.Log("sending this to Neighbor Status class");
+               _signalBus.Fire(new ColorBoxSignals.SendNodeInformationToNeighborStatusSignal()
+               {
+                   GameObject = gameObject,
+                   targetNode = TargetNode
+               });
+               Debug.Log("Signal Fired and Sent");
+           }
+           else
+           {
+               Debug.Log("Target node sent null");
+           }
+       }
     }
     
     private void CheckDestinationStatus(ColorBoxSignals.SendNewDestinationToAiSignal sendNewDestinationToAiSignalTransform)
@@ -62,27 +85,9 @@ public class AIDestinationSetterCustom : MonoBehaviour
                 SetDestination((Vector3)destinationNode.position);
                 _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].isOccupied = true;
                 _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].GettingOccupied(gameObject);
-                //NodeIndexNumber();
                 
-                //sending this to Neighbor Status class
-                if (TargetNode != null)
-                {
-                    Debug.Log("sending this to Neighbor Status class");
-                    _signalBus.Fire(new ColorBoxSignals.SendNodeInformationToNeighborStatusSignal()
-                    {
-                        //issue here
-                        targetNode = TargetNode
-                    });
-                    Debug.Log("Signal Fired and Sent");
-                }
-                else
-                {
-                    Debug.Log("Target node sent null");
-                }
+                //Checking if agent is reached destination in update
             }
-            
-            
-            
         }
     }
 
@@ -91,14 +96,17 @@ public class AIDestinationSetterCustom : MonoBehaviour
         if (target != null && _ai != null) _ai.destination = targetDestinationPosition;
         //invoke neighborStatus
     }
-   
-    private void NodeIndexNumber( )
+
+    private bool CheckDestinationReached()
     {
-        GraphNode node = AstarPath.active.GetNearest (target).node;
-        if (node.Walkable)
+        //keep checking AI position;
+        //Debug.Log($"Agent position now {_ai.position} and Target Position {(Vector3)TargetNode.position}");
+        if (TargetNode != null && (_ai.position == (Vector3)TargetNode.position))
         {
-            Debug.Log($"Node Index {node.NodeIndex}");
+            Debug.Log("Agent Destination Reached");
+            return true;
         }
+        return false;
     }
 
     private bool NodeOccupancyStatusCheck(int index)
@@ -113,6 +121,14 @@ public class AIDestinationSetterCustom : MonoBehaviour
         {
             //Debug.Log("Not Occupied / Empty");
             return true;
+        }
+    }
+    private void NodeIndexNumber( )
+    {
+        GraphNode node = AstarPath.active.GetNearest (target).node;
+        if (node.Walkable)
+        {
+            Debug.Log($"Node Index {node.NodeIndex}");
         }
     }
     
