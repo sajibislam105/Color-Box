@@ -17,7 +17,12 @@ public class ColorboxInstaller : MonoInstaller
         SignalBusInstaller.Install(Container);
         
         //input system scripts signals
+<<<<<<< Updated upstream
         Container.DeclareSignal<ColorBoxSignals.SendNewDestinationToAiSignal>();
+=======
+        Container.DeclareSignal<ColorBoxSignals.SelectedDestination>();
+        Container.DeclareSignal<ColorBoxSignals.AgentReachedTargetNode>();
+>>>>>>> Stashed changes
 
     }
 }

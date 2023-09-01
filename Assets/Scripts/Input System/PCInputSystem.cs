@@ -17,9 +17,16 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
     {
         if (Input.GetMouseButtonDown(0))
         {
+<<<<<<< Updated upstream
             var hit =CastRay();
             if (hit.HasValue)
             {
+=======
+            Debug.Log("mouse button");
+            if (_selectedGameObject == null)
+            {
+                var hit = CastRay();
+>>>>>>> Stashed changes
                 if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
                 {
                     _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
@@ -27,30 +34,23 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
                     //Debug.Log(_selectedGameObject.name + " Selected");
                 }
             }
-        }
-
-        if (_selectedGameObject != null)
-        {
-            if (Input.GetMouseButtonDown(1))
+            else
             {
                 var hit = CastRay();
                 if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
                 {
                     var NewDestination = hit.Value.point;
                     //send transform to ai destination
-                    _signalBus.Fire(new ColorBoxSignals.SendNewDestinationToAiSignal()
+                    _signalBus.Fire(new ColorBoxSignals.SelectedDestination()
                     {
-                        newDestinationTransform = NewDestination, instanceID = _instanceId,
+                        newDestinationPosition = NewDestination, instanceID = _instanceId,
                     });
                     //Debug.Log("Position send " + NewDestination);
                     _selectedGameObject = null;
                 }
-            }            
+            }
         }
-        else
-        {
-          //  Debug.Log("No objectSelected");
-        } 
+
     }
 
     private RaycastHit? CastRay()
