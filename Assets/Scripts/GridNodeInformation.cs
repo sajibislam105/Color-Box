@@ -10,7 +10,7 @@ public class GridNodeInformation : MonoBehaviour
     
     private GridGraph _aStarGridGraphData;
     
-    private List<GraphNode> _allNodes = new List<GraphNode>();
+    private readonly List<GraphNode> _allNodes = new List<GraphNode>();
     public List<NodeWrapper> allNodesCustom
     {
         get { return AllNodesCustom; }
@@ -60,27 +60,27 @@ public class GridNodeInformation : MonoBehaviour
 public class NodeWrapper
 {
     private GraphNode _graphNode;
-    [SerializeField] private bool _isOccupied;
-    [SerializeField] private GameObject _occupiedBy;
+    [SerializeField] private bool isOccupied;
+    [SerializeField] private GameObject occupiedBy;
 
-    public GraphNode GraphNode
+    public GraphNode graphNode
     {
         get { return _graphNode; }
     }
     public bool IsOccupied
     {
-        get { return _isOccupied; }
+        get { return isOccupied; }
     }
     public GameObject OccupiedBy
     {
-        get { return _occupiedBy; }
+        get { return occupiedBy; }
     }
     
     public NodeWrapper(GraphNode graphNode, bool isOccupied, GameObject occupiedBy)
     {
         _graphNode = graphNode;
-        _isOccupied = isOccupied;
-        _occupiedBy = occupiedBy;
+        this.isOccupied = isOccupied;
+        this.occupiedBy = occupiedBy;
     }
 
     public List<GraphNode> GetAllNeighbors()
@@ -98,14 +98,14 @@ public class NodeWrapper
 
     public void GetOccupied(GameObject gameObject)
     {
-        _isOccupied = true;
-        _occupiedBy = gameObject;
+        isOccupied = true;
+        occupiedBy = gameObject;
     }
 
     public void ClearingNode()
     {
-        _isOccupied = false;
-        _occupiedBy = null;
+        isOccupied = false;
+        occupiedBy = null;
         //Debug.Log("Node Cleared");
     }
 }

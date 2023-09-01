@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class PCInputSystem : MonoBehaviour , IInputSystem
+public class PCInputSystem : MonoBehaviour
 {
     [Inject] private Camera _camera;
     [Inject] private SignalBus _signalBus;
@@ -51,8 +51,6 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
                 //  Debug.Log("No objectSelected");
             } 
         }
-
-        
     }
 
     private RaycastHit? CastRay()

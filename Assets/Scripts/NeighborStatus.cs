@@ -74,9 +74,9 @@ public class NeighborStatus : MonoBehaviour
 
     private void CheckAndMergeColorBox(Item neighborGameObject)
     {
-        if (_aiDestinationSetterCustom.GetComponent<Item>().ITemId == neighborGameObject.ITemId)
+        //Debug.Log($"Agent Id {_aiDestinationSetterCustom.GetComponent<Item>().ITemId} and Neighbour Id {neighborGameObject.ITemId}");
+        if (_aiDestinationSetterCustom.GetComponent<Item>().ItemId != neighborGameObject.ItemId)
         {
-            //Debug.Log("Girl and Boy Matched");
             var neighbourAgentNodeWrapper = _gridNodeInformation.allNodesCustom[neighborGameObject.GetComponent<AIDestinationSetterCustom>().TargetNode.NodeIndex];
             if (neighbourAgentNodeWrapper != null)
             {
@@ -93,12 +93,10 @@ public class NeighborStatus : MonoBehaviour
                 gameObject.SetActive(false);
                 Destroy(gameObject);    
             }
-            //Debug.Log( "Both Destroyed");
         }
         else
         {
-            /*Debug.Log($"Agent name is {_aiDestinationSetterCustom.gameObject.GetComponent<Item>().name} and it did not matched with {NeighborGameObject.gameObject.name}"); 
-            Debug.Log($"Agent color is {_aiDestinationSetterCustom.gameObject.GetComponent<Item>().MaterialColor} and color did not matched with {NeighborGameObject.gameObject.GetComponent<Item>().MaterialColor}");*/
+            Debug.Log("No LGBT Please !!!");
         }
     }
 }
