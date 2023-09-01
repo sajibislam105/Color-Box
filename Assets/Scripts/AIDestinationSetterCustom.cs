@@ -1,4 +1,3 @@
-using System;
 using Pathfinding;
 using UnityEngine;
 using Zenject;
@@ -11,68 +10,57 @@ public class AIDestinationSetterCustom : MonoBehaviour
     [Inject] private GridNodeInformation _gridNodeInformation;
 
     private IAstarAI _ai;
-
-    public IAstarAI AI
-    {
-        get { return _ai; }
-    }
-    
     public GraphNode TargetNode;
 
     void OnEnable () 
     {
-        //if (_ai != null) _ai.onSearchPath += Update;
-        _signalBus.Subscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
+        _signalBus.Subscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
     }
 
     void OnDisable () 
     {
-        //if (_ai != null) _ai.onSearchPath -= Update;
-        
-        _signalBus.Unsubscribe<ColorBoxSignals.SendNewDestinationToAiSignal>(CheckDestinationStatus);
+        _signalBus.Unsubscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
     }
-
-    private void OnDestroy()
-    {
-        //_gridNodeInformation.AllNodesCustom[TargetNode.NodeIndex].ClearingNodeOccupiedObject();
-    }
-
     private void Start()
     {
         _ai = GetComponent<IAstarAI>();
-        _ai.destination = transform.position;
+
+        CheckDestinationStatus(new ColorBoxSignals.SelectedDestination()
+        {
+            instanceID = gameObject.GetInstanceID(),
+            newDestinationTransform = AstarPath.active.GetNearest(transform.position).position
+        });
     }
     private void Update ()
-    {
-       //if (target != null && _ai != null) _ai.destination = target;
-       if (CheckDestinationReached())
-       {
+    { 
+        if(HasDestinationReached()) 
+        {
            if (TargetNode != null)
            {
                //Debug.Log($"Agent position is in target Position {_ai.reachedDestination}");
                //sending this to Neighbor Status class
                //Debug.Log("sending this to Neighbor Status class");
-               _signalBus.Fire(new ColorBoxSignals.SendNodeInformationToNeighborStatusSignal()
+               _signalBus.Fire(new ColorBoxSignals.AgentReachedTargetNode()
                {
-                   GameObject = gameObject,
+                   AgentGameObject = gameObject,
                    targetNode = TargetNode
                });
-               //Debug.Log("Signal Fired and Sent");
+               //Debug.Log(" Agent Reached destination, Signal Fired and Sent");
            }
            else
            {
                Debug.Log("Target node sent null");
-           }
-       }
+           } 
+        }
     }
     
-    private void CheckDestinationStatus(ColorBoxSignals.SendNewDestinationToAiSignal sendNewDestinationToAiSignalTransform)
+    private void CheckDestinationStatus(ColorBoxSignals.SelectedDestination signal)
     {
-        Vector3 targetDestinationPosition = sendNewDestinationToAiSignalTransform.newDestinationTransform;
-        var rcvdInstanceID = sendNewDestinationToAiSignalTransform.instanceID;
-        var thisGameObjectInstanceID =gameObject.GetInstanceID();
+        Vector3 targetDestinationPosition = signal.newDestinationTransform;
+        var receivedInstanceID = signal.instanceID;
+        var thisGameObjectInstanceID = gameObject.GetInstanceID();
         
-        GraphNode currentNode = AstarPath.active.GetNearest (transform.position).node; // current Node Position
+        GraphNode currentNode = AstarPath.active.GetNearest (transform.position).node; // Agent's current Node
         target = targetDestinationPosition;
         GraphNode destinationNode = AstarPath.active.GetNearest (target).node;
         TargetNode = destinationNode;
@@ -80,18 +68,15 @@ public class AIDestinationSetterCustom : MonoBehaviour
         {
             Debug.Log("Target Node Null");
         }
-        if (rcvdInstanceID == thisGameObjectInstanceID)
+        if (receivedInstanceID == thisGameObjectInstanceID)
         {
             //check if the node is occupied or not.
             if (NodeOccupancyStatusCheck(destinationNode.NodeIndex))
             {
-                _gridNodeInformation.AllNodesCustom[currentNode.NodeIndex].isOccupied = false; // when leaving the node
-                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].OccupiedBy = null;
+                _gridNodeInformation.allNodesCustom[currentNode.NodeIndex].ClearingNode(); // clearing the node before leaving
                 //Invoking set destination
                 SetDestination((Vector3)destinationNode.position);
-                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].isOccupied = true;
-                _gridNodeInformation.AllNodesCustom[destinationNode.NodeIndex].GettingOccupied(gameObject);
-                
+                _gridNodeInformation.allNodesCustom[destinationNode.NodeIndex].GetOccupied(gameObject); // Initializing the node with values
                 //Checking if agent is reached destination in update
             }
         }
@@ -103,7 +88,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
         //invoke neighborStatus
     }
 
-    private bool CheckDestinationReached()
+    private bool HasDestinationReached()
     {
         //keep checking AI position;
         //Debug.Log($"Agent position now {_ai.position} and Target Position {(Vector3)TargetNode.position}");
@@ -117,8 +102,8 @@ public class AIDestinationSetterCustom : MonoBehaviour
 
     private bool NodeOccupancyStatusCheck(int index)
     {
-        var allNodesCustom = _gridNodeInformation.AllNodesCustom;
-        if (allNodesCustom[index].isOccupied && allNodesCustom[index].OccupiedBy != null)
+        var allNodesCustom = _gridNodeInformation.allNodesCustom;
+        if (allNodesCustom[index].IsOccupied && allNodesCustom[index].OccupiedBy != null)
         {
             //Debug.Log("occupied");
             return false;

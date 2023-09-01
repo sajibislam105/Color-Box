@@ -3,15 +3,15 @@ using UnityEngine;
 
 public abstract class ColorBoxSignals : MonoBehaviour
 {
-   public class SendNewDestinationToAiSignal
+   public class SelectedDestination
    {
       public Vector3 newDestinationTransform;
       public int instanceID;
    }
 
-   public class SendNodeInformationToNeighborStatusSignal
+   public class AgentReachedTargetNode
    {
-      public GameObject GameObject;
+      public GameObject AgentGameObject;
       public GraphNode targetNode;
    }
 }

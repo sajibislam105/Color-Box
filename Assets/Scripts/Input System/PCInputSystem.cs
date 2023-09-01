@@ -15,7 +15,7 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
 
     public void InputSystem()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && _selectedGameObject == null)
         {
             var hit =CastRay();
             if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
@@ -25,29 +25,34 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
                 //Debug.Log(_selectedGameObject.name + " Selected");
             }
         }
-
-        if (_selectedGameObject != null)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                var hit = CastRay();
-                if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
-                {
-                    var NewDestination = hit.Value.point;
-                    //send transform to ai destination
-                    _signalBus.Fire(new ColorBoxSignals.SendNewDestinationToAiSignal()
-                    {
-                        newDestinationTransform = NewDestination, instanceID = _instanceId,
-                    });
-                    //Debug.Log("Position send " + NewDestination);
-                    _selectedGameObject = null;
-                }
-            }            
-        }
         else
         {
-          //  Debug.Log("No objectSelected");
-        } 
+            if (_selectedGameObject != null)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    var hit = CastRay();
+                    if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
+                    {
+                        var newDestination = hit.Value.point;
+                        //send transform to ai destination
+                        _signalBus.Fire(new ColorBoxSignals.SelectedDestination()
+                        {
+                            newDestinationTransform = newDestination,
+                            instanceID = _instanceId
+                        });
+                        //Debug.Log("Position send " + NewDestination);
+                        _selectedGameObject = null;
+                    }
+                }            
+            }
+            else
+            {
+                //  Debug.Log("No objectSelected");
+            } 
+        }
+
+        
     }
 
     private RaycastHit? CastRay()
