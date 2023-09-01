@@ -17,16 +17,10 @@ public class PCInputSystem : MonoBehaviour , IInputSystem
     {
         if (Input.GetMouseButtonDown(0))
         {
-<<<<<<< Updated upstream
-            var hit =CastRay();
-            if (hit.HasValue)
-            {
-=======
             Debug.Log("mouse button");
             if (_selectedGameObject == null)
             {
                 var hit = CastRay();
->>>>>>> Stashed changes
                 if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
                 {
                     _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
