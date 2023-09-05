@@ -21,6 +21,14 @@ public class AIDestinationSetterCustom : MonoBehaviour
     {
         _signalBus.Unsubscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
     }
+
+    private void Awake()
+    {
+        // Recalculate only the first grid graph
+        var graphToScan = AstarPath.active.data.gridGraph;
+        AstarPath.active.Scan(graphToScan);
+    }
+
     private void Start()
     {
         _ai = GetComponent<IAstarAI>();
