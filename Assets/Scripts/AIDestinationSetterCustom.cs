@@ -9,6 +9,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
     [Inject] private SignalBus _signalBus;
     [Inject] private GridNodeInformation _gridNodeInformation;
 
+    //private ParticleSystem _particleSystemInChild;
     private IAstarAI _ai;
     public GraphNode TargetNode;
 
@@ -32,6 +33,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
     private void Start()
     {
         _ai = GetComponent<IAstarAI>();
+        //_particleSystemInChild = GetComponentInChildren<ParticleSystem>();
 
         CheckDestinationStatus(new ColorBoxSignals.SelectedDestination()
         {
@@ -58,7 +60,14 @@ public class AIDestinationSetterCustom : MonoBehaviour
            else
            {
                Debug.Log("Target node sent null");
-           } 
+           }
+           
+           //Debug.Log("stopping particle effect");//stopping particle effect
+            _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
+            {
+                   Status = false,
+                   instanceID = 0
+            });
         }
     }
     
@@ -82,6 +91,13 @@ public class AIDestinationSetterCustom : MonoBehaviour
             if (NodeOccupancyStatusCheck(destinationNode.NodeIndex))
             {
                 _gridNodeInformation.allNodesCustom[currentNode.NodeIndex].ClearingNode(); // clearing the node before leaving
+                
+                //play destination area particle effect
+                _signalBus.Fire(new ColorBoxSignals.NodeSelection()
+                {
+                    nodePosition = (Vector3)TargetNode.position  
+                });
+                
                 //Invoking set destination
                 SetDestination((Vector3)destinationNode.position);
                 _gridNodeInformation.allNodesCustom[destinationNode.NodeIndex].GetOccupied(gameObject); // Initializing the node with values

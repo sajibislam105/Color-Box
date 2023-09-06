@@ -9,8 +9,7 @@ public class GridNodeInformation : MonoBehaviour
 {
     [SerializeField] private List<NodeWrapper> AllNodesCustom = new List<NodeWrapper>();
     private GridGraph _aStarGridGraphData;
-    [SerializeField] private GameObject nodeOutlineGameObject;
-    
+
     private readonly List<GraphNode> _allNodes = new List<GraphNode>();
     
     public List<NodeWrapper> allNodesCustom
@@ -20,14 +19,14 @@ public class GridNodeInformation : MonoBehaviour
 
     private void Start()
     {
-        AllNodesCustom.Add(new NodeWrapper(null, false, null/*, null*/)); //adding first node as Null to fill the index 0
+        AllNodesCustom.Add(new NodeWrapper(null, false, null)); //adding first node as Null to fill the index 0
         _aStarGridGraphData = AstarData.active.data.gridGraph; // it has all information about grid.
         _aStarGridGraphData.GetNodes(GetNode);
     }
     private void GetNode(GraphNode node)
     {
         _allNodes.Add(node);
-        AllNodesCustom.Add(new NodeWrapper(node, false, null/*, _nodeOutlineGameObject*/));
+        AllNodesCustom.Add(new NodeWrapper(node, false, null));
         
         if (_allNodes.Count >= _aStarGridGraphData.CountNodes())
         {
@@ -64,7 +63,6 @@ public class NodeWrapper
     private GraphNode _graphNode;
     [SerializeField] private bool isOccupied;
     [SerializeField] private GameObject occupiedBy;
-    [SerializeField]private GameObject nodeOutLine;
 
     public GraphNode graphNode
     {
@@ -79,19 +77,11 @@ public class NodeWrapper
         get { return occupiedBy; }
     }
     
-    public GameObject NodeOutline
-    {
-        get => nodeOutLine;
-        set => nodeOutLine = value;
-    }
-    
-    public NodeWrapper(GraphNode graphNode, bool isOccupied, GameObject occupiedBy/*, GameObject nodeOutLine*/)
+    public NodeWrapper(GraphNode graphNode, bool isOccupied, GameObject occupiedBy)
     {
         _graphNode = graphNode;
         this.isOccupied = isOccupied;
         this.occupiedBy = occupiedBy;
-        //this.nodeOutLine = nodeOutLine;
-
     }
 
     public List<GraphNode> GetAllNeighbors()

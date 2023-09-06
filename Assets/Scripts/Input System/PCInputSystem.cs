@@ -7,7 +7,7 @@ public class PCInputSystem : MonoBehaviour
     [Inject] private SignalBus _signalBus;
     private GameObject _selectedGameObject;
     private int _instanceId;
-
+    
     private void Update()
     {
         InputSystem();
@@ -23,7 +23,28 @@ public class PCInputSystem : MonoBehaviour
                 _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
                 _instanceId = _selectedGameObject.GetInstanceID();
                 //Debug.Log(_selectedGameObject.name + " Selected");
+                
+                if (_selectedGameObject != null)
+                {
+                    //play particle effect
+                    _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
+                    {
+                        Status = true,
+                        instanceID = _instanceId
+                        
+                    });    
+                }
+                else
+                {
+                    _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
+                    {
+                        Status = false,
+                        instanceID = 0
+                    });  
+                }
+                
             }
+            
         }
         else
         {

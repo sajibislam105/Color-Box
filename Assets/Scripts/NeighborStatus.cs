@@ -92,11 +92,17 @@ public class NeighborStatus : MonoBehaviour
                 agentNodeWrapper.ClearingNode();
                 gameObject.SetActive(false);
                 Destroy(gameObject);    
+                
+                //remove selected node area vfx
+                _signalBus.Fire(new ColorBoxSignals.NodeSelection()
+                {
+                    nodePosition = Vector3.zero
+                });
             }
         }
         else
         {
-            Debug.Log("No LGBT Please !!!");
+            //Debug.Log("No LGBT Please !!!");
         }
     }
 }

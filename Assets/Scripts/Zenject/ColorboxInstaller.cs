@@ -18,6 +18,8 @@ public class ColorboxInstaller : MonoInstaller
         //input system scripts signals
         Container.DeclareSignal<ColorBoxSignals.SelectedDestination>();
         Container.DeclareSignal<ColorBoxSignals.AgentReachedTargetNode>();
+        Container.DeclareSignal<ColorBoxSignals.AgentSelectionStatus>();
+        Container.DeclareSignal<ColorBoxSignals.NodeSelection>();
 
     }
     
