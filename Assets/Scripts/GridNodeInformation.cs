@@ -61,6 +61,7 @@ public class GridNodeInformation : MonoBehaviour
 public class NodeWrapper
 {
     private GraphNode _graphNode;
+    [SerializeField] private int NodeIndexNumber;
     [SerializeField] private bool isOccupied;
     [SerializeField] private GameObject occupiedBy;
 
@@ -82,6 +83,14 @@ public class NodeWrapper
         _graphNode = graphNode;
         this.isOccupied = isOccupied;
         this.occupiedBy = occupiedBy;
+        if (graphNode != null) //setting the first index as a 0
+        {
+            NodeIndexNumber = graphNode.NodeIndex;    
+        }
+        else
+        {
+            NodeIndexNumber = 0;
+        }
     }
 
     public List<GraphNode> GetAllNeighbors()

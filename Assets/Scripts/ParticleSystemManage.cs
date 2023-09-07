@@ -24,7 +24,7 @@ public class ParticleSystemManage : MonoBehaviour
     private void ParticleSystemStatus(ColorBoxSignals.AgentSelectionStatus signal)
     {
         bool status = signal.Status;
-        if (status && (gameObject.GetInstanceID() == signal.instanceID))
+        if (status && (gameObject.GetInstanceID() == signal.InstanceID))
         {
             _particleSystemInChild.Play();
         }

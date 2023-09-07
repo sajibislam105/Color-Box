@@ -1,29 +1,31 @@
-using OpenCover.Framework.Model;
 using Pathfinding;
 using UnityEngine;
 
-public abstract class ColorBoxSignals : MonoBehaviour
+namespace Zenject
 {
-   public class SelectedDestination
+   public abstract class ColorBoxSignals : MonoBehaviour
    {
-      public Vector3 newDestinationTransform;
-      public int instanceID;
-   }
+      public class SelectedDestination
+      {
+         public Vector3 NewDestinationTransform;
+         public int InstanceID;
+      }
 
-   public class AgentReachedTargetNode
-   {
-      public GameObject AgentGameObject;
-      public GraphNode targetNode;
-   }
+      public class AgentReachedTargetNode
+      {
+         public GameObject AgentGameObject;
+         public GraphNode TargetNode;
+      }
    
-   //particle system
-   public class AgentSelectionStatus
-   {
-      public bool Status;
-      public int instanceID;
-   }
-   public class NodeSelection
-   {
-      public Vector3 nodePosition;
+      //particle system
+      public class AgentSelectionStatus
+      {
+         public bool Status;
+         public int InstanceID;
+      }
+      public class NodeSelection
+      {
+         public Vector3 NodePosition;
+      }
    }
 }

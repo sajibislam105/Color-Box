@@ -5,14 +5,12 @@ using Zenject;
 public class AIDestinationSetterCustom : MonoBehaviour
 {
     [SerializeField] private  Vector3 target;
-    
     [Inject] private SignalBus _signalBus;
     [Inject] private GridNodeInformation _gridNodeInformation;
 
-    //private ParticleSystem _particleSystemInChild;
     private IAstarAI _ai;
     public GraphNode TargetNode;
-
+    
     void OnEnable () 
     {
         _signalBus.Subscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
@@ -33,12 +31,10 @@ public class AIDestinationSetterCustom : MonoBehaviour
     private void Start()
     {
         _ai = GetComponent<IAstarAI>();
-        //_particleSystemInChild = GetComponentInChildren<ParticleSystem>();
-
         CheckDestinationStatus(new ColorBoxSignals.SelectedDestination()
         {
-            instanceID = gameObject.GetInstanceID(),
-            newDestinationTransform = AstarPath.active.GetNearest(transform.position).position
+            InstanceID = gameObject.GetInstanceID(),
+            NewDestinationTransform = AstarPath.active.GetNearest(transform.position).position
         });
     }
     private void Update ()
@@ -53,28 +49,28 @@ public class AIDestinationSetterCustom : MonoBehaviour
                _signalBus.Fire(new ColorBoxSignals.AgentReachedTargetNode()
                {
                    AgentGameObject = gameObject,
-                   targetNode = TargetNode
+                   TargetNode = TargetNode
                });
                //Debug.Log(" Agent Reached destination, Signal Fired and Sent");
+               
+               //Debug.Log("stopping particle effect");//stopping particle effect
+               _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
+               {
+                   Status = false,
+                   InstanceID = 0
+               });
            }
            else
            {
                Debug.Log("Target node sent null");
            }
-           
-           //Debug.Log("stopping particle effect");//stopping particle effect
-            _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
-            {
-                   Status = false,
-                   instanceID = 0
-            });
         }
     }
     
     private void CheckDestinationStatus(ColorBoxSignals.SelectedDestination signal)
     {
-        Vector3 targetDestinationPosition = signal.newDestinationTransform;
-        var receivedInstanceID = signal.instanceID;
+        Vector3 targetDestinationPosition = signal.NewDestinationTransform;
+        var receivedInstanceID = signal.InstanceID;
         var thisGameObjectInstanceID = gameObject.GetInstanceID();
         
         GraphNode currentNode = AstarPath.active.GetNearest (transform.position).node; // Agent's current Node
@@ -91,13 +87,11 @@ public class AIDestinationSetterCustom : MonoBehaviour
             if (NodeOccupancyStatusCheck(destinationNode.NodeIndex))
             {
                 _gridNodeInformation.allNodesCustom[currentNode.NodeIndex].ClearingNode(); // clearing the node before leaving
-                
                 //play destination area particle effect
                 _signalBus.Fire(new ColorBoxSignals.NodeSelection()
                 {
-                    nodePosition = (Vector3)TargetNode.position  
+                    NodePosition = (Vector3)TargetNode.position  
                 });
-                
                 //Invoking set destination
                 SetDestination((Vector3)destinationNode.position);
                 _gridNodeInformation.allNodesCustom[destinationNode.NodeIndex].GetOccupied(gameObject); // Initializing the node with values
