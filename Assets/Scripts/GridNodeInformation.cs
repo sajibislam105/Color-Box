@@ -2,36 +2,36 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using Sirenix.OdinInspector;
 
-public class GridNodeInformation : SerializedMonoBehaviour
+
+[DefaultExecutionOrder(-1)]
+public class GridNodeInformation : MonoBehaviour
 {
+    [SerializeField] private List<NodeWrapper> AllNodesCustom = new List<NodeWrapper>();
     private GridGraph _aStarGridGraphData;
+
+    private readonly List<GraphNode> _allNodes = new List<GraphNode>();
     
-    [SerializeField] private List<GraphNode> _allNodes = new List<GraphNode>();
-    [SerializeField] private List<NodeWrapper> _allNodesCustom = new List<NodeWrapper>();
-
-    public List<NodeWrapper> AllNodesCustom
+    public List<NodeWrapper> allNodesCustom
     {
-        get { return _allNodesCustom; }
+        get { return AllNodesCustom; }
     }
-    private void Awake()
-    {
-        _allNodesCustom.Add(new NodeWrapper(null, false, null)); //adding first node as Null to fill the index 0
-        _aStarGridGraphData = AstarData.active.data.gridGraph; // it has all information about grid.
 
+    private void Start()
+    {
+        AllNodesCustom.Add(new NodeWrapper(null, false, null)); //adding first node as Null to fill the index 0
+        _aStarGridGraphData = AstarData.active.data.gridGraph; // it has all information about grid.
         _aStarGridGraphData.GetNodes(GetNode);
     }
-
     private void GetNode(GraphNode node)
     {
         _allNodes.Add(node);
-        _allNodesCustom.Add(new NodeWrapper(node, false, null));
+        AllNodesCustom.Add(new NodeWrapper(node, false, null));
         
         if (_allNodes.Count >= _aStarGridGraphData.CountNodes())
         {
             //Debug.Log("All nodes added");
-            //TODO Get player positions and set them to occupied
+            //Get player positions and set them to occupied
         }
     }
     /*[Button]
@@ -55,49 +55,67 @@ public class GridNodeInformation : SerializedMonoBehaviour
         }
     }*/
 
-
 }
+
 [Serializable]
 public class NodeWrapper
 {
-    public GraphNode graphNode;
-    public bool isOccupied;
-    public GameObject OccupiedBy;
+    private GraphNode _graphNode;
+    [SerializeField] private int NodeIndexNumber;
+    [SerializeField] private bool isOccupied;
+    [SerializeField] private GameObject occupiedBy;
 
+    public GraphNode graphNode
+    {
+        get { return _graphNode; }
+    }
+    public bool IsOccupied
+    {
+        get { return isOccupied; }
+    }
+    public GameObject OccupiedBy
+    {
+        get { return occupiedBy; }
+    }
+    
     public NodeWrapper(GraphNode graphNode, bool isOccupied, GameObject occupiedBy)
     {
-        this.graphNode = graphNode;
+        _graphNode = graphNode;
         this.isOccupied = isOccupied;
-        this.OccupiedBy = OccupiedBy;
+        this.occupiedBy = occupiedBy;
+        if (graphNode != null) //setting the first index as a 0
+        {
+            NodeIndexNumber = graphNode.NodeIndex;    
+        }
+        else
+        {
+            NodeIndexNumber = 0;
+        }
     }
 
     public List<GraphNode> GetAllNeighbors()
     {
         //Debug.Log("Get all neighbor called");
         List<GraphNode> neighborNodes = new List<GraphNode>();
-        graphNode.GetConnections((GraphNode neighborNode) =>
+        _graphNode.GetConnections((GraphNode neighborNode) =>
         {
             neighborNodes.Add(neighborNode);
             //Debug.Log("Neighbor added to list");
         });
         //Debug.Log("list return");
         return neighborNodes;
-        
     }
 
-    public void GettingOccupied(GameObject gameObject)
+    public void GetOccupied(GameObject gameObject)
     {
-        OccupiedBy = gameObject;
+        isOccupied = true;
+        occupiedBy = gameObject;
     }
 
     public void ClearingNode()
     {
-        //Debug.Log("Called");
-        OccupiedBy = null;
         isOccupied = false;
-        if (OccupiedBy == null && !isOccupied)
-        {
-            //Debug.Log("Node Cleared");
-        }
+        occupiedBy = null;
+        //Debug.Log("Node Cleared");
     }
 }
