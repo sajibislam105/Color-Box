@@ -25087,10 +25087,10 @@ GameObject:
   - component: {fileID: 6678493564256427552}
   - component: {fileID: 816485689002563063}
   - component: {fileID: 6383619841257135912}
-  - component: {fileID: 4244850088612054572}
   - component: {fileID: 4920126074781510737}
   - component: {fileID: 5037408277333832476}
   - component: {fileID: 7936593223213366401}
+  - component: {fileID: 6680891299487475335}
   m_Layer: 0
   m_Name: Girl Agent
   m_TagString: Untagged
@@ -25113,7 +25113,7 @@ Transform:
   - {fileID: 4644351255600287026}
   - {fileID: 5089274166323446393}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6445127240403058356
 MonoBehaviour:
@@ -25212,18 +25212,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 0
   itemName: Girl
---- !u!114 &4244850088612054572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6896266624696885721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e30b1f9b2b8584a9fda33c8e51022d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4920126074781510737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25282,6 +25270,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415abcf4af569404f82cfd12e6d7df8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6680891299487475335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6896266624696885721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4e9c2dba6746a88caa44b6d5c17a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7237034519015980054

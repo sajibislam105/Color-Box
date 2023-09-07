@@ -10,7 +10,10 @@ public class AIDestinationSetterCustom : MonoBehaviour
 
     private IAstarAI _ai;
     public GraphNode TargetNode;
-    
+    public GraphNode NodeFromLastUpdate;
+    private Vector2 _currentPosition;
+    public Vector2 CurrentPosition => _currentPosition;
+
     void OnEnable () 
     {
         _signalBus.Subscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
@@ -110,9 +113,16 @@ public class AIDestinationSetterCustom : MonoBehaviour
     {
         //keep checking AI position;
         //Debug.Log($"Agent position now {_ai.position} and Target Position {(Vector3)TargetNode.position}");
+        if (NodeFromLastUpdate != null && NodeFromLastUpdate == TargetNode)
+        {
+            return false;
+        }
+        
         if (TargetNode != null && (_ai.position == (Vector3)TargetNode.position))
         {
             //Debug.Log("Agent Destination Reached");
+            NodeFromLastUpdate = TargetNode;
+            _currentPosition = new Vector2(transform.position.x, transform.position.z);
             return true;
         }
         return false;
