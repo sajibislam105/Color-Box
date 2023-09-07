@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Pathfinding;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
 
@@ -82,7 +81,7 @@ public class NeighborStatus : MonoBehaviour
                     }
                 }
                 
-                /*if (NeighborNode.Count <= 3 )
+                if (NeighborNode.Count <= 3 )
                 {
                     Debug.Log($"Agent Node {agentNode.NodeIndex}");
                     
@@ -117,10 +116,10 @@ public class NeighborStatus : MonoBehaviour
                     /*NeighborNode.Add(allNodesCustom[currentAgentIndexNode + 1]);
                     NeighborNode.Add(allNodesCustom[currentAgentIndexNode - 1]);
                     NeighborNode.Add(allNodesCustom[currentAgentIndexNode + 6]);
-                    NeighborNode.Add(allNodesCustom[currentAgentIndexNode - 6]);#1#
+                    NeighborNode.Add(allNodesCustom[currentAgentIndexNode - 6]);*/
                     
                     Debug.Log("Neighbor Node added manually");      
-                }*/
+                }
                 
 
                 /*var allOccupiedNodes = new List<NodeWrapper>();

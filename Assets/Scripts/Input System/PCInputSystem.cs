@@ -46,8 +46,6 @@ namespace Input_System
                             //Debug.Log("Child Layer name changed");
                         }
                         //Debug.Log("Layer name changed");
-                        
-                        
                     }
                     else
                     {

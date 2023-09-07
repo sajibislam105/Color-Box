@@ -29921,6 +29921,7 @@ GameObject:
   - component: {fileID: 7071842686664658983}
   - component: {fileID: 3851636465508615727}
   - component: {fileID: 339492600122945248}
+  - component: {fileID: 1968039025534125038}
   m_Layer: 0
   m_Name: Boy Agent
   m_TagString: Untagged
@@ -29943,7 +29944,7 @@ Transform:
   - {fileID: 9077027738752939773}
   - {fileID: 5757268574047969009}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3449907057914227820
 MonoBehaviour:
@@ -30049,11 +30050,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6849054724218713225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2e30b1f9b2b8584a9fda33c8e51022d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NeighborNode: []
 --- !u!114 &4224924058593033283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30061,7 +30063,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6849054724218713225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 560112f876f5746c780eca0d404e7139, type: 3}
   m_Name: 
@@ -30124,6 +30126,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415abcf4af569404f82cfd12e6d7df8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1968039025534125038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6849054724218713225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0aea1f0c723441da3134137b892631b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7160887471166184803
