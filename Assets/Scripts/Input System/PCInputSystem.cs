@@ -99,7 +99,6 @@ namespace Input_System
                             _selectedGameObject = null;
                         }
                     }
-                    
                 }
                 else
                 {

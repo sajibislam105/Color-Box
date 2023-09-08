@@ -21,6 +21,13 @@ public class AnimationMovement : MonoBehaviour
     private void WalkingAnimation(ColorBoxSignals.WalkingAnimationSignal signal)
     {
         var selectedStatus = signal.Remote;
-        _animator.SetBool("IsWalking", selectedStatus);
+        if (selectedStatus && signal.InstanceID == gameObject.GetInstanceID())
+        {
+            _animator.SetBool("IsWalking", true);    
+        }
+        else
+        {
+            _animator.SetBool("IsWalking", false);
+        }
     }
 }

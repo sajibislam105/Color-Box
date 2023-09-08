@@ -32,6 +32,7 @@ namespace Zenject
       public class WalkingAnimationSignal
       {
          public bool Remote;
+         public int InstanceID;
       }
    }
 }

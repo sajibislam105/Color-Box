@@ -33,32 +33,39 @@ public class NeighborCheck : MonoBehaviour
                 var distanceToOtherAgent = Vector3.Distance(agent.transform.position, currentAgent.transform.position);
                 var nodeSize = AstarPath.active.data.gridGraph.nodeSize;
                 bool isNeighbor = Math.Abs(distanceToOtherAgent - nodeSize) < 0.05f; // < 0.05 is tolerance for floating value
-                
                 if (isNeighbor)
                 {
-                    var differentItemId = agent.ItemId != currentAgent.GetComponent<Item>().ItemId;
-                    if (differentItemId)
-                    {
-                        //Debug.Log("<color='blue'>Whew!!!!! MATCH FOUND!!!</color>");
-                        //Debug.Log($"Neighbor name: {agent.name} and Current Agent name: {currentAgent.name}");
-                        
-                        Destroy(agent.gameObject);
-                        Destroy(currentAgent);
-                        //Debug.Log("Merged>");
-                        
-                        //stoping green VFX
-                        _signalBus.Fire(new ColorBoxSignals.NodeSelection()
-                        {
-                            NodePosition = Vector3.zero
-                        });
-                        AstarPath.active.data.gridGraph.Scan();
-                    }
+                    var neighborAgentItem = agent;
+                    CheckAndMerge(neighborAgentItem, currentAgent);
                 }
                 else
                 {
                     //Debug.Log("No Neighbor found");
                 }
             }
+        }
+    }
+
+    private void CheckAndMerge(Item NeighborAgent, GameObject currentAgent)
+    {
+        var agent = NeighborAgent;
+        
+        var differentItemId = agent.ItemId != currentAgent.GetComponent<Item>().ItemId;
+        if (differentItemId)
+        {
+            //Debug.Log("<color='blue'>Whew!!!!! MATCH FOUND!!!</color>");
+            //Debug.Log($"Neighbor name: {agent.name} and Current Agent name: {currentAgent.name}");
+                        
+            Destroy(agent.gameObject);
+            Destroy(currentAgent);
+            //Debug.Log("Merged>");
+                        
+            //stopping green VFX
+            _signalBus.Fire(new ColorBoxSignals.NodeSelection()
+            {
+                NodePosition = Vector3.zero
+            });
+            AstarPath.active.data.gridGraph.Scan();
         }
     }
 }

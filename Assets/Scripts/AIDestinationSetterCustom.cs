@@ -112,7 +112,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
         {
             _signalBus.Fire(new ColorBoxSignals.WalkingAnimationSignal()
             {
-                Remote = true
+                Remote = true, InstanceID =  gameObject.GetInstanceID()
             });  
         }
         //invoke neighborStatus
