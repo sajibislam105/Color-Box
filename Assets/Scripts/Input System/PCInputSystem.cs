@@ -17,93 +17,100 @@ namespace Input_System
 
         private void InputSystem()
         {
-            if (Input.GetMouseButtonDown(0) && _selectedGameObject == null)
+            if (Input.GetMouseButtonDown(0))
             {
-                var hit =CastRay();
-                if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
-                {
-                    _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
-                    _instanceId = _selectedGameObject.GetInstanceID();
-                    //Debug.Log(_selectedGameObject.name + " Selected");
+                //First Tapped on Screen
+                _signalBus.Fire(new ColorBoxSignals.FirstTappedLevelStart());
                 
-                    if (_selectedGameObject != null)
-                    {
-                        //play particle effect
-                        _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
-                        {
-                            Status = true,
-                            InstanceID = _instanceId
-                        
-                        });
-                        //gameObject.layer uses only integers, but we can turn a layer name into a layer integer using LayerMask.NameToLayer()
-                        int LayerName = LayerMask.NameToLayer("Player");
-                        _selectedGameObject.layer = LayerName;                    
-                        var childs = _selectedGameObject.gameObject.GetComponentsInChildren<Transform>();
-                        foreach (var child in childs)
-                        {
-                            int LayerNameChild = LayerMask.NameToLayer("Player");
-                            child.gameObject.layer = LayerNameChild;
-                            //Debug.Log("Child Layer name changed");
-                        }
-                        //Debug.Log("Layer name changed");
-                    }
-                    else
-                    {
-                        _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
-                        {
-                            Status = false,
-                            InstanceID = 0
-                        });  
-                    }
-                }
-            }
-            else
-            {
-                if (_selectedGameObject != null)
+                if (Input.GetMouseButtonDown(0) && _selectedGameObject == null)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    var hit = CastRay();
+                    if (hit.HasValue && hit.Value.collider.gameObject.CompareTag("Player"))
                     {
-                        var hit = CastRay();
-                        if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
+                        _selectedGameObject = hit.Value.collider.transform.parent.gameObject;
+                        _instanceId = _selectedGameObject.GetInstanceID();
+                        //Debug.Log(_selectedGameObject.name + " Selected");
+
+                        if (_selectedGameObject != null)
                         {
-                            var newDestination = hit.Value.point;
-                            //send transform to ai destination
-                            _signalBus.Fire(new ColorBoxSignals.SelectedDestination()
+                            //play particle effect
+                            _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
                             {
-                                NewDestinationTransform = newDestination,
+                                Status = true,
                                 InstanceID = _instanceId
+
                             });
-                            var gridGraph = AstarPath.active.data.gridGraph;
-                            LayerMask currentHeightMask = gridGraph.collision.heightMask;
-                            // Define the layer you want to add
-                            int layerToAdd = LayerMask.NameToLayer("Default");
-                            // Use a bitwise OR operation to add the layer to the height mask
-                            currentHeightMask |= (1 << layerToAdd);
-                            // Assign the modified height mask back to the graph
-                            gridGraph.collision.heightMask = currentHeightMask;
-                            gridGraph.Scan();
-                            //Debug.Log("Graph scanned after layer name changed to player");
-                            
-                            
                             //gameObject.layer uses only integers, but we can turn a layer name into a layer integer using LayerMask.NameToLayer()
-                            int LayerName = LayerMask.NameToLayer("Default");
-                            _selectedGameObject.layer = LayerName;                    
+                            int LayerName = LayerMask.NameToLayer("Player");
+                            _selectedGameObject.layer = LayerName;
                             var childs = _selectedGameObject.gameObject.GetComponentsInChildren<Transform>();
                             foreach (var child in childs)
                             {
-                                int LayerNameChild = LayerMask.NameToLayer("Default");
+                                int LayerNameChild = LayerMask.NameToLayer("Player");
                                 child.gameObject.layer = LayerNameChild;
-                                //Debug.Log("Child Layer name reset to Default");
+                                //Debug.Log("Child Layer name changed");
                             }
-                            //Debug.Log("Layer name reset to Default");
-                            _selectedGameObject = null;
+                            //Debug.Log("Layer name changed");
+                        }
+                        else
+                        {
+                            _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
+                            {
+                                Status = false,
+                                InstanceID = 0
+                            });
                         }
                     }
                 }
                 else
                 {
-                    //  Debug.Log("No objectSelected");
-                } 
+                    if (_selectedGameObject != null)
+                    {
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            var hit = CastRay();
+                            if (hit.HasValue && hit.Value.collider.CompareTag("Ground"))
+                            {
+                                var newDestination = hit.Value.point;
+                                //send transform to ai destination
+                                _signalBus.Fire(new ColorBoxSignals.SelectedDestination()
+                                {
+                                    NewDestinationTransform = newDestination,
+                                    InstanceID = _instanceId
+                                });
+                                var gridGraph = AstarPath.active.data.gridGraph;
+                                LayerMask currentHeightMask = gridGraph.collision.heightMask;
+                                // Define the layer you want to add
+                                int layerToAdd = LayerMask.NameToLayer("Default");
+                                // Use a bitwise OR operation to add the layer to the height mask
+                                currentHeightMask |= (1 << layerToAdd);
+                                // Assign the modified height mask back to the graph
+                                gridGraph.collision.heightMask = currentHeightMask;
+                                gridGraph.Scan();
+                                //Debug.Log("Graph scanned after layer name changed to player");
+
+
+                                //gameObject.layer uses only integers, but we can turn a layer name into a layer integer using LayerMask.NameToLayer()
+                                int LayerName = LayerMask.NameToLayer("Default");
+                                _selectedGameObject.layer = LayerName;
+                                var childs = _selectedGameObject.gameObject.GetComponentsInChildren<Transform>();
+                                foreach (var child in childs)
+                                {
+                                    int LayerNameChild = LayerMask.NameToLayer("Default");
+                                    child.gameObject.layer = LayerNameChild;
+                                    //Debug.Log("Child Layer name reset to Default");
+                                }
+
+                                //Debug.Log("Layer name reset to Default");
+                                _selectedGameObject = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //  Debug.Log("No objectSelected");
+                    }
+                }
             }
         }
 

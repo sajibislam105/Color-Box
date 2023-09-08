@@ -34,5 +34,21 @@ namespace Zenject
          public bool Remote;
          public int InstanceID;
       }
+      
+      
+      //UI 
+      public class LoadEverything { }
+      
+      public class FirstTappedLevelStart { }
+      
+      public class LevelComplete { }
+      public class LevelFailed { }
+      
+      public class ProgressBarStatus
+      {
+         public float BarCompletePercentage;
+      }
+
+      public class MoveCounter{ }
    }
 }

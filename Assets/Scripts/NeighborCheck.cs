@@ -6,6 +6,12 @@ public class NeighborCheck : MonoBehaviour
 {
     [Inject] private SignalBus _signalBus;
     
+    private int _mergeCount;
+
+    public  int MergeCount
+    {
+        get {return MergeCount;}
+    }
     private void OnEnable()
     {
         _signalBus.Subscribe<ColorBoxSignals.AgentReachedTargetNode>(NeighborNodesOccupancyCheck);
@@ -48,6 +54,7 @@ public class NeighborCheck : MonoBehaviour
 
     private void CheckAndMerge(Item NeighborAgent, GameObject currentAgent)
     {
+        
         var agent = NeighborAgent;
         
         var differentItemId = agent.ItemId != currentAgent.GetComponent<Item>().ItemId;
@@ -58,6 +65,7 @@ public class NeighborCheck : MonoBehaviour
                         
             Destroy(agent.gameObject);
             Destroy(currentAgent);
+            _mergeCount++; 
             //Debug.Log("Merged>");
                         
             //stopping green VFX

@@ -13,6 +13,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
     private GraphNode _targetNode;
     private GraphNode _nodeFromLastUpdate;
     private Vector3 _initialPositionOfAgent;
+
     void OnEnable () 
     {
         _signalBus.Subscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
@@ -25,6 +26,8 @@ public class AIDestinationSetterCustom : MonoBehaviour
 
     private void Awake()
     {
+        var currentNodePosition = AstarPath.active.GetNearest (transform.position).node;
+        gameObject.transform.position = (Vector3)currentNodePosition.position;
         // Recalculate only the first grid graph
         var graphToScan = AstarPath.active.data.gridGraph;
         AstarPath.active.Scan(graphToScan);
@@ -46,9 +49,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
         {
            if (_targetNode != null)
            {
-               //Debug.Log($"Agent position is in target Position {_ai.reachedDestination}");
                //sending this to Neighbor Status class
-               //Debug.Log("sending this to Neighbor Status class");
                _signalBus.Fire(new ColorBoxSignals.AgentReachedTargetNode()
                {
                    AgentGameObject = gameObject,
@@ -56,7 +57,9 @@ public class AIDestinationSetterCustom : MonoBehaviour
                });
                //Debug.Log(" Agent Reached destination, Signal Fired and Sent");
                
-               //Debug.Log("stopping particle effect");//stopping particle effect
+               _signalBus.Fire(new ColorBoxSignals.MoveCounter()); //counting how many move has been used in the Game Manager Class
+               
+               //Debug.Log("stopping particle effect");
                _signalBus.Fire(new ColorBoxSignals.AgentSelectionStatus()
                {
                    Status = false,
@@ -135,7 +138,6 @@ public class AIDestinationSetterCustom : MonoBehaviour
             {
                 Remote = false
             });
-            
             return true;
         }
         return false;

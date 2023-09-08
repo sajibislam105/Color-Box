@@ -15,15 +15,20 @@ namespace Zenject
             Container.Bind<NavMeshAgent>().FromComponentSibling().AsTransient();
 
             SignalBusInstaller.Install(Container);
-        
-            //input system scripts signals
-            Container.DeclareSignal<ColorBoxSignals.SelectedDestination>();
-            Container.DeclareSignal<ColorBoxSignals.AgentReachedTargetNode>();
-            Container.DeclareSignal<ColorBoxSignals.AgentSelectionStatus>();
+
+            Container.DeclareSignal<ColorBoxSignals.SelectedDestination>();//input system scripts signal
+            Container.DeclareSignal<ColorBoxSignals.AgentReachedTargetNode>();//Destination Check Signal
+            Container.DeclareSignal<ColorBoxSignals.AgentSelectionStatus>();//neighbor check signal
             Container.DeclareSignal<ColorBoxSignals.NodeSelection>();
-            Container.DeclareSignal<ColorBoxSignals.WalkingAnimationSignal>();
+            Container.DeclareSignal<ColorBoxSignals.WalkingAnimationSignal>(); //Animation Signal
+            
+            //UI Signals
+            Container.DeclareSignal<ColorBoxSignals.LoadEverything>();
+            Container.DeclareSignal<ColorBoxSignals.FirstTappedLevelStart>();
+            Container.DeclareSignal<ColorBoxSignals.LevelComplete>();
+            Container.DeclareSignal<ColorBoxSignals.LevelFailed>();
+            Container.DeclareSignal<ColorBoxSignals.ProgressBarStatus>();
+            Container.DeclareSignal<ColorBoxSignals.MoveCounter>();
         }
-    
-    
     }
 }

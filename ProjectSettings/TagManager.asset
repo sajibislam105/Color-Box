@@ -7,6 +7,7 @@ TagManager:
   - Trigger
   - Ground
   - GridCell
+  - Agent
   layers:
   - Default
   - TransparentFX
