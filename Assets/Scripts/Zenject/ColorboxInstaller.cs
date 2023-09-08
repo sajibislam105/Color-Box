@@ -21,7 +21,7 @@ namespace Zenject
             Container.DeclareSignal<ColorBoxSignals.AgentReachedTargetNode>();
             Container.DeclareSignal<ColorBoxSignals.AgentSelectionStatus>();
             Container.DeclareSignal<ColorBoxSignals.NodeSelection>();
-
+            Container.DeclareSignal<ColorBoxSignals.WalkingAnimationSignal>();
         }
     
     

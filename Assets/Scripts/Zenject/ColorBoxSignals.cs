@@ -27,5 +27,11 @@ namespace Zenject
       {
          public Vector3 NodePosition;
       }
+
+      //Animation
+      public class WalkingAnimationSignal
+      {
+         public bool Remote;
+      }
    }
 }

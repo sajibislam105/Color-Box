@@ -5,12 +5,14 @@ using Zenject;
 public class AIDestinationSetterCustom : MonoBehaviour
 {
     [SerializeField] private  Vector3 target;
+    
     [Inject] private SignalBus _signalBus;
     [Inject] private GridNodeInformation _gridNodeInformation;
 
     private IAstarAI _ai;
-    public GraphNode TargetNode;
-    private GraphNode NodeFromLastUpdate;
+    private GraphNode _targetNode;
+    private GraphNode _nodeFromLastUpdate;
+    private Vector3 _initialPositionOfAgent;
     void OnEnable () 
     {
         _signalBus.Subscribe<ColorBoxSignals.SelectedDestination>(CheckDestinationStatus);
@@ -36,12 +38,13 @@ public class AIDestinationSetterCustom : MonoBehaviour
             InstanceID = gameObject.GetInstanceID(),
             NewDestinationTransform = AstarPath.active.GetNearest(transform.position).position
         });
+        _initialPositionOfAgent = _ai.position;
     }
     private void Update ()
     { 
         if(HasDestinationReached()) 
         {
-           if (TargetNode != null)
+           if (_targetNode != null)
            {
                //Debug.Log($"Agent position is in target Position {_ai.reachedDestination}");
                //sending this to Neighbor Status class
@@ -49,7 +52,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
                _signalBus.Fire(new ColorBoxSignals.AgentReachedTargetNode()
                {
                    AgentGameObject = gameObject,
-                   TargetNode = TargetNode
+                   TargetNode = _targetNode
                });
                //Debug.Log(" Agent Reached destination, Signal Fired and Sent");
                
@@ -76,8 +79,8 @@ public class AIDestinationSetterCustom : MonoBehaviour
         GraphNode currentNode = AstarPath.active.GetNearest (transform.position).node; // Agent's current Node
         target = targetDestinationPosition;
         GraphNode destinationNode = AstarPath.active.GetNearest (target).node;
-        TargetNode = destinationNode;
-        if (TargetNode == null)
+        _targetNode = destinationNode;
+        if (_targetNode == null)
         {
             Debug.Log("Target Node Null");
         }
@@ -90,7 +93,7 @@ public class AIDestinationSetterCustom : MonoBehaviour
                 //play destination area particle effect
                 _signalBus.Fire(new ColorBoxSignals.NodeSelection()
                 {
-                    NodePosition = (Vector3)TargetNode.position  
+                    NodePosition = (Vector3)_targetNode.position  
                 });
                 //Invoking set destination
                 SetDestination((Vector3)destinationNode.position);
@@ -102,22 +105,37 @@ public class AIDestinationSetterCustom : MonoBehaviour
 
     private void SetDestination(Vector3 targetDestinationPosition)
     {
-        if (target != null && _ai != null) _ai.destination = targetDestinationPosition;
+        if (target != null && _ai != null) _ai.destination = targetDestinationPosition; //setting destination
+        
+        // playing walking animations   
+        if (gameObject.transform.position != _initialPositionOfAgent && _nodeFromLastUpdate != null)
+        {
+            _signalBus.Fire(new ColorBoxSignals.WalkingAnimationSignal()
+            {
+                Remote = true
+            });  
+        }
         //invoke neighborStatus
     }
 
     private bool HasDestinationReached()
     {
-        if (NodeFromLastUpdate != null && NodeFromLastUpdate == TargetNode)
+        if (_nodeFromLastUpdate != null && _nodeFromLastUpdate == _targetNode)
         {
             return false;
         }
         //keep checking AI position;
         //Debug.Log($"Agent position now {_ai.position} and Target Position {(Vector3)TargetNode.position}");
-        if (TargetNode != null && (_ai.position == (Vector3)TargetNode.position))
+        if (_targetNode != null && (_ai.position == (Vector3)_targetNode.position))
         {
             //Debug.Log("Agent Destination Reached");
-            NodeFromLastUpdate = TargetNode;
+            _nodeFromLastUpdate = _targetNode;
+            
+            _signalBus.Fire(new ColorBoxSignals.WalkingAnimationSignal()
+            {
+                Remote = false
+            });
+            
             return true;
         }
         return false;
