@@ -534,8 +534,8 @@ RectTransform:
   - {fileID: 5191577188845790428}
   - {fileID: 3228640874347478910}
   - {fileID: 2727622268875200707}
-  - {fileID: 3464876469974115930}
   - {fileID: 6927706966994338132}
+  - {fileID: 3464876469974115930}
   - {fileID: 7261115204660866278}
   - {fileID: 4720071240697860255}
   m_Father: {fileID: 8749397339709444404}
@@ -2812,8 +2812,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5339db2521e6118458f07dfd1e518d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximum: 100
-  currentCompletion: 0
   Bar: {fileID: 2642011961116618406}
 --- !u!1 &7181461754389551785
 GameObject:
@@ -2854,7 +2852,7 @@ RectTransform:
   - {fileID: 8749397339709444404}
   - {fileID: 6321731073206527330}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

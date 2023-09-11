@@ -27,8 +27,11 @@ namespace Zenject
             Container.DeclareSignal<ColorBoxSignals.FirstTappedLevelStart>();
             Container.DeclareSignal<ColorBoxSignals.LevelComplete>();
             Container.DeclareSignal<ColorBoxSignals.LevelFailed>();
-            Container.DeclareSignal<ColorBoxSignals.ProgressBarStatus>();
+            Container.DeclareSignal<ColorBoxSignals.CompletionProgressBarSignal>();
             Container.DeclareSignal<ColorBoxSignals.MoveCounter>();
+            Container.DeclareSignal<ColorBoxSignals.RemainingMoves>();
+            Container.DeclareSignal<ColorBoxSignals.CoupleMergeCount>();
+            Container.DeclareSignal<ColorBoxSignals.CoinEarned>();
         }
     }
 }

@@ -44,11 +44,20 @@ namespace Zenject
       public class LevelComplete { }
       public class LevelFailed { }
       
-      public class ProgressBarStatus
+      public class CompletionProgressBarSignal
       {
-         public float BarCompletePercentage;
+         public float ProgressBarFillAmount;
       }
 
       public class MoveCounter{ }
+
+      public class RemainingMoves
+      {
+         public int remainingMoves;
+      }
+      
+      public class CoupleMergeCount { }
+      
+      public class CoinEarned {}
    }
 }

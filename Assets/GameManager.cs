@@ -1,12 +1,18 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class GameManager : MonoBehaviour
 {
-    [Inject] private SignalBus _signalBus;
     [SerializeField] private int AvailableMoveCountForThisLevel;
     [SerializeField] private int moveCount;
+    [SerializeField] private int RemainingMoves;
+    private int _totalAgentsOnScreen;
+    private int coupleMatchedCount;
+
+    [SerializeField] private int coinCount; 
     
+    [Inject] private SignalBus _signalBus;
     private void Awake()
     {
         moveCount = -4;
@@ -15,12 +21,27 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _signalBus.Subscribe<ColorBoxSignals.MoveCounter>(MoveCountManager);
+        _signalBus.Subscribe<ColorBoxSignals.MoveCounter>(RemainingMoveCounter);
+        _signalBus.Subscribe<ColorBoxSignals.CoupleMergeCount>(CompletionProgressBarCalculation);
+        _signalBus.Subscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
+    }
+
+    private void OnCoinEarned()
+    {
+        coinCount++;
     }
 
     private void OnDisable()
     {
-        _signalBus.Unsubscribe<ColorBoxSignals.MoveCounter>(MoveCountManager);
+        _signalBus.Unsubscribe<ColorBoxSignals.MoveCounter>(RemainingMoveCounter);
+        _signalBus.Unsubscribe<ColorBoxSignals.CoupleMergeCount>(CompletionProgressBarCalculation);
+        _signalBus.Unsubscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
+    }
+
+    private void Start()
+    {
+        _totalAgentsOnScreen = GameObject.FindGameObjectsWithTag("Agent").Length;
+        //Debug.Log($"total couples on screen: {_totalAgentsOnScreen * 0.5}");
     }
 
     private void Update()
@@ -29,7 +50,7 @@ public class GameManager : MonoBehaviour
         
         if (moveCount == AvailableMoveCountForThisLevel)
         {
-            CalculateRemainingMoveCount();
+            CalculateRemainingMoveCountAndLevelStatus();
         }
     }
 
@@ -45,7 +66,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    private void CalculateRemainingMoveCount()
+    private void CalculateRemainingMoveCountAndLevelStatus()
     {
         if (moveCount == ( AvailableMoveCountForThisLevel ) && HasLevelCompleted())
         {
@@ -59,15 +80,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void MoveCountManager()
+    private void RemainingMoveCounter()
     {
         moveCount++;
-        var RemainingMoves = AvailableMoveCountForThisLevel - moveCount;
-        var progressBar = RemainingMoves / AvailableMoveCountForThisLevel;
-        _signalBus.Fire(new ColorBoxSignals.ProgressBarStatus()
+        //Debug.Log($"Move Count: {moveCount}");
+        RemainingMoves = AvailableMoveCountForThisLevel - moveCount;
+        _signalBus.Fire(new ColorBoxSignals.RemainingMoves()
         {
-            BarCompletePercentage = progressBar
+            remainingMoves = RemainingMoves
         });
-        Debug.Log("Progress bar signal sent");
+    }
+
+    private void CompletionProgressBarCalculation(ColorBoxSignals.CoupleMergeCount signal)
+    {
+        coupleMatchedCount++;
+        var totalCouples = _totalAgentsOnScreen *  0.5f;        
+        if (coupleMatchedCount >= 0)
+        {            
+            var remainingCouples = (totalCouples - coupleMatchedCount);
+            var remainingAgents = remainingCouples * 2;
+            // Completion Progress Percentage = [(Available Moves - Remaining Moves) / Available Moves] * 100
+            var progressCompleted = ((_totalAgentsOnScreen - remainingAgents) / _totalAgentsOnScreen * 100.0f) / 100.0f; 
+            //Debug.Log($"Remaining Agents {remainingAgents} and complete percentage is: {progressCompleted} "); 
+            _signalBus.Fire(new ColorBoxSignals.CompletionProgressBarSignal()
+            {
+                ProgressBarFillAmount = progressCompleted
+            });
+        }
     }
 }

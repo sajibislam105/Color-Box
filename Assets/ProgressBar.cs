@@ -8,26 +8,24 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Image Bar;
 
     [Inject] private SignalBus _signalBus;
+
     private void OnEnable()
     {
-        _signalBus.Subscribe<ColorBoxSignals.ProgressBarStatus>(GetCurrentFIll);
+        _signalBus.Subscribe<ColorBoxSignals.CompletionProgressBarSignal>(GetCurrentFIll);
     }
     private void OnDisable()
     {
-        _signalBus.Unsubscribe<ColorBoxSignals.ProgressBarStatus>(GetCurrentFIll);
+        _signalBus.Unsubscribe<ColorBoxSignals.CompletionProgressBarSignal>(GetCurrentFIll);
     }
 
-    void Update()
+    private void Start()
     {
-        //GetCurrentFIll();
+        Bar.fillAmount = 0;
     }
 
-    private void GetCurrentFIll(ColorBoxSignals.ProgressBarStatus signal)
+    private void GetCurrentFIll(ColorBoxSignals.CompletionProgressBarSignal signal)
     {
-        
-        //var fillAmount = (float)currentCompletion / (float)maximum;
-        var fillAmount = signal.BarCompletePercentage;
-        Debug.Log(fillAmount);
+        var fillAmount = signal.ProgressBarFillAmount;
         Bar.fillAmount = fillAmount;
     }
 }

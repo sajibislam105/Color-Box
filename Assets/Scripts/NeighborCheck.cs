@@ -5,13 +5,7 @@ using Zenject;
 public class NeighborCheck : MonoBehaviour
 {
     [Inject] private SignalBus _signalBus;
-    
-    private int _mergeCount;
 
-    public  int MergeCount
-    {
-        get {return MergeCount;}
-    }
     private void OnEnable()
     {
         _signalBus.Subscribe<ColorBoxSignals.AgentReachedTargetNode>(NeighborNodesOccupancyCheck);
@@ -65,11 +59,11 @@ public class NeighborCheck : MonoBehaviour
                         
             Destroy(agent.gameObject);
             Destroy(currentAgent);
-            _mergeCount++; 
             //Debug.Log("Merged>");
-                        
+            _signalBus.Fire(new ColorBoxSignals.CoupleMergeCount()); //Signaling the Couple has merged
+            _signalBus.Fire(new ColorBoxSignals.CoinEarned());
             //stopping green VFX
-            _signalBus.Fire(new ColorBoxSignals.NodeSelection()
+            _signalBus.Fire(new ColorBoxSignals.NodeSelection() 
             {
                 NodePosition = Vector3.zero
             });
