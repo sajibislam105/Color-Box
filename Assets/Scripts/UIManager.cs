@@ -1,18 +1,21 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Canvas CurencyScreen;
-    [SerializeField] private Canvas PreGameScreen;
-    [SerializeField] private Canvas InGameScreen;
-    [SerializeField] private Canvas LevelCompleteScreen;
-    [SerializeField] private Canvas LevelFailedScreen;
+    [SerializeField] private Canvas currencyScreen;
+    [SerializeField] private Canvas preGameScreen;
+    [SerializeField] private Canvas inGameScreen;
+    [SerializeField] private Canvas levelCompleteScreen;
+    [SerializeField] private Canvas levelFailedScreen;
     
     [Inject] private SignalBus _signalBus;
 
-    private int Balance;
+    private int _balance;
+    private int _balanceEarnedThisScene;
     private void OnEnable()
     {
         _signalBus.Subscribe<ColorBoxSignals.FirstTappedLevelStart>(OnLevelStart);
@@ -27,55 +30,82 @@ public class UIManager : MonoBehaviour
         _signalBus.Unsubscribe<ColorBoxSignals.LevelComplete>(OnLevelComplete);
         _signalBus.Unsubscribe<ColorBoxSignals.LevelFailed>(OnLevelFailed);
         _signalBus.Unsubscribe<ColorBoxSignals.RemainingMoves>(OnCountingRemainingMoves);
-        _signalBus.Subscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
+        _signalBus.Unsubscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
     }
 
     private void Start()
     {
-        PreGameScreen.gameObject.SetActive(true);
-        CurencyScreen.gameObject.SetActive(true);
-        InGameScreen.gameObject.SetActive(false);
-        Balance = 0;
+        preGameScreen.gameObject.SetActive(true);
+        currencyScreen.gameObject.SetActive(true);
+        inGameScreen.gameObject.SetActive(false);
+        if (PlayerPrefs.HasKey("TotalCoins")) 
+        {
+            _balance = PlayerPrefs.GetInt("TotalCoins");
+            Debug.Log(_balance);
+            currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _balance.ToString();
+        }
+        else
+        {
+            // The key doesn't exist; handle accordingly (e.g., set a default value).
+            //Balance = PlayerPrefs.GetInt("PlayerScore", 0);
+            //Debug.Log("The balance is Reset.");
+        }
+        
     }
 
     private void OnLevelStart()
     {
-        PreGameScreen.gameObject.SetActive(false);
-        InGameScreen.gameObject.SetActive(true);
-        CurencyScreen.gameObject.SetActive(true);
+        preGameScreen.gameObject.SetActive(false);
+        inGameScreen.gameObject.SetActive(true);
+        currencyScreen.gameObject.SetActive(true);
     }
-    
-    
+
     private void OnCountingRemainingMoves(ColorBoxSignals.RemainingMoves signal)
     {
         var remainingMoves = signal.remainingMoves.ToString();
-        InGameScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = "Moves Left: " + remainingMoves;
+        inGameScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = "Moves Left: " + remainingMoves;
     }
-    
-    
+
     private void OnLevelComplete()
     {
-        PreGameScreen.gameObject.SetActive(false);
-        InGameScreen.gameObject.SetActive(false);
-        CurencyScreen.gameObject.SetActive(true);
-        LevelCompleteScreen.gameObject.SetActive(true);
-        LevelCompleteScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<LevelCompleteScreenUI>().youEarnedText
-            .text = "Coins Earned " + Balance;
+        preGameScreen.gameObject.SetActive(false);
+        inGameScreen.gameObject.SetActive(false);
+        currencyScreen.gameObject.SetActive(true);
+        levelCompleteScreen.gameObject.SetActive(true);
+        levelCompleteScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<LevelCompleteScreenUI>().youEarnedText
+            .text = "Coins Earned " + _balanceEarnedThisScene;
+        
     }
-    
     private void OnLevelFailed()
     {
-        PreGameScreen.gameObject.SetActive(false);
-        InGameScreen.gameObject.SetActive(false);
-        CurencyScreen.gameObject.SetActive(true);
-        LevelFailedScreen.gameObject.SetActive(true);
+        preGameScreen.gameObject.SetActive(false);
+        inGameScreen.gameObject.SetActive(false);
+        currencyScreen.gameObject.SetActive(true);
+        levelFailedScreen.gameObject.SetActive(true);
     }
     private void OnCoinEarned()
     {
-        Balance++;
-        CurencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = Balance.ToString();
-        Debug.Log("balance: "+ CurencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text);
+        _balance++;
+        _balanceEarnedThisScene++;
+        currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _balance.ToString();
+        //Debug.Log("balance: "+ CurrencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text);
+        //Debug.Log("BalanceEarnedThisScene: "+ BalanceEarnedThisScene);
 
     }
+    public void ReloadLevel()
+    {
+        // Get the current scene index
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // Reload the current scene
+        SceneManager.LoadScene(currentSceneIndex);
+        }
 
+    public void OnClaimButtonClicked()
+    {
+        _signalBus.Fire(new ColorBoxSignals.CoinAddedToBalance()
+        {
+            AddedAmount = _balanceEarnedThisScene
+        });
+    }
+    
 }

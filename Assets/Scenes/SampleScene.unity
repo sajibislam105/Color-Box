@@ -200,24 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f5948fd41c923418f858c2afe83d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &564622259 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3821562672358156730, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-  m_PrefabInstance: {fileID: 6211045302589737261}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &564622263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564622259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55803cd62da48f342afa760c52bc9a7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  youEarnedText: {fileID: 1924034424}
 --- !u!108 &705507994 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 8582044758169239781, guid: a58031a4d12abe0428d29aac6725567b, type: 3}
@@ -475,17 +457,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89a15a50e4c48434b9146624e8080fbe, type: 3}
---- !u!114 &1924034424 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6106490337215952928, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-  m_PrefabInstance: {fileID: 6211045302589737261}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1002355780382720482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -541,10 +512,6 @@ PrefabInstance:
     - target: {fileID: 2765215700888239702, guid: 06f580c0987325e41bb8fead23a6279a, type: 3}
       propertyPath: m_Name
       value: Girl Base Agent
-      objectReference: {fileID: 0}
-    - target: {fileID: 2765215700888239702, guid: 06f580c0987325e41bb8fead23a6279a, type: 3}
-      propertyPath: m_TagString
-      value: Agent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -623,10 +590,6 @@ PrefabInstance:
     - target: {fileID: 6664091964471147964, guid: 89a15a50e4c48434b9146624e8080fbe, type: 3}
       propertyPath: m_Name
       value: Boy Base Agent
-      objectReference: {fileID: 0}
-    - target: {fileID: 6664091964471147964, guid: 89a15a50e4c48434b9146624e8080fbe, type: 3}
-      propertyPath: m_TagString
-      value: Agent
       objectReference: {fileID: 0}
     - target: {fileID: 7763798049928274390, guid: 89a15a50e4c48434b9146624e8080fbe, type: 3}
       propertyPath: m_RootOrder
@@ -884,18 +847,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2749578706557118913, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3464876469974115930, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 49.1061
-      objectReference: {fileID: 0}
-    - target: {fileID: 3464876469974115930, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -283
-      objectReference: {fileID: 0}
     - target: {fileID: 3732823534116284496, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -980,63 +931,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3821562672358156730, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5191577188845790428, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 74
-      objectReference: {fileID: 0}
-    - target: {fileID: 5645100309527037067, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6106490337215952928, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_text
-      value: Coins Earned
-      objectReference: {fileID: 0}
-    - target: {fileID: 6705081611461705842, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6705081611461705842, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6705081611461705842, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6705081611461705842, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 36.420776
-      objectReference: {fileID: 0}
-    - target: {fileID: 6705081611461705842, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6927706966994338132, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 33
-      objectReference: {fileID: 0}
     - target: {fileID: 7181461754389551785, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
       propertyPath: m_Name
       value: Master Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7850770947386304808, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_text
-      value: 'Moves Left:'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8838205687722480482, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3821562672358156730, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 564622263}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}

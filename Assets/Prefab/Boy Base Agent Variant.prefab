@@ -1079,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_LocalScale.x
@@ -1095,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1103,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: 4844688658712006384, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1140,6 +1140,10 @@ PrefabInstance:
     - target: {fileID: 8430417234201580186, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
       propertyPath: m_Name
       value: Boy Base Agent Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430417234201580186, guid: 07e999e19e4dd80409f9eea602745ecb, type: 3}
+      propertyPath: m_TagString
+      value: Agent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

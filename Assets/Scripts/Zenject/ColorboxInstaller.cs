@@ -32,6 +32,8 @@ namespace Zenject
             Container.DeclareSignal<ColorBoxSignals.RemainingMoves>();
             Container.DeclareSignal<ColorBoxSignals.CoupleMergeCount>();
             Container.DeclareSignal<ColorBoxSignals.CoinEarned>();
+            Container.DeclareSignal<ColorBoxSignals.CoinAddedToBalance>();
+            
         }
     }
 }

@@ -59,5 +59,11 @@ namespace Zenject
       public class CoupleMergeCount { }
       
       public class CoinEarned {}
+
+
+      public class CoinAddedToBalance
+      {
+         public int AddedAmount;
+      }
    }
 }

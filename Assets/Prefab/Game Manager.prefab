@@ -71,5 +71,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e774e0516b81b4fbfcf8b66cb3a6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvailableMoveCountForThisLevel: 5
+  availableMoveCountForThisLevel: 5
   moveCount: 0
