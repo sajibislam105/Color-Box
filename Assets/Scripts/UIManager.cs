@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Zenject;
 
 public class UIManager : MonoBehaviour
@@ -11,11 +10,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas inGameScreen;
     [SerializeField] private Canvas levelCompleteScreen;
     [SerializeField] private Canvas levelFailedScreen;
+    [SerializeField] private Canvas settingMenu;
     
     [Inject] private SignalBus _signalBus;
+    [Inject] private ClaimAnimation _claimAnimation;
+    private int _totalCoins;
 
     private int _balance;
     private int _balanceEarnedThisScene;
+
+    private void Awake()
+    {
+        _totalCoins  = PlayerPrefs.GetInt("TotalCoins");
+    }
+
     private void OnEnable()
     {
         _signalBus.Subscribe<ColorBoxSignals.FirstTappedLevelStart>(OnLevelStart);
@@ -40,9 +48,8 @@ public class UIManager : MonoBehaviour
         inGameScreen.gameObject.SetActive(false);
         if (PlayerPrefs.HasKey("TotalCoins")) 
         {
-            _balance = PlayerPrefs.GetInt("TotalCoins");
-            Debug.Log(_balance);
-            currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _balance.ToString();
+            //Debug.Log("Total Coins at the start of level " + _totalCoins);
+            currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _totalCoins.ToString();
         }
         else
         {
@@ -50,7 +57,6 @@ public class UIManager : MonoBehaviour
             //Balance = PlayerPrefs.GetInt("PlayerScore", 0);
             //Debug.Log("The balance is Reset.");
         }
-        
     }
 
     private void OnLevelStart()
@@ -85,12 +91,8 @@ public class UIManager : MonoBehaviour
     }
     private void OnCoinEarned()
     {
-        _balance++;
         _balanceEarnedThisScene++;
-        currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _balance.ToString();
-        //Debug.Log("balance: "+ CurrencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text);
         //Debug.Log("BalanceEarnedThisScene: "+ BalanceEarnedThisScene);
-
     }
     public void ReloadLevel()
     {
@@ -102,10 +104,28 @@ public class UIManager : MonoBehaviour
 
     public void OnClaimButtonClicked()
     {
-        _signalBus.Fire(new ColorBoxSignals.CoinAddedToBalance()
+        _signalBus.Fire(new ColorBoxSignals.ClaimedAndCoinAddedToBalance()
         {
             AddedAmount = _balanceEarnedThisScene
         });
+        _totalCoins  = PlayerPrefs.GetInt("TotalCoins");
+        currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _totalCoins.ToString();
+    }
+
+    public void OnSettingButtonClicked()
+    {
+        settingMenu.gameObject.SetActive(true);
+    }
+    public void OnSettingCloseButtonClicked()
+    {
+        settingMenu.gameObject.SetActive(false);
+    }
+
+    public void OnTapToStartButtonClicked()
+    {
+        //First Tapped on Screen
+        _signalBus.Fire(new ColorBoxSignals.FirstTappedLevelStart());
+        
     }
     
 }

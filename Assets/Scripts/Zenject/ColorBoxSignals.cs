@@ -61,7 +61,7 @@ namespace Zenject
       public class CoinEarned {}
 
 
-      public class CoinAddedToBalance
+      public class ClaimedAndCoinAddedToBalance
       {
          public int AddedAmount;
       }

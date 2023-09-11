@@ -11,13 +11,14 @@ public class GameManager : MonoBehaviour
     private int _coupleMatchedCount;
     private int _coinCount;
 
-    private int totalCoins { get; set; }
+    private int totalCoins;
 
 
     [Inject] private SignalBus _signalBus;
     private void Awake()
     {
         moveCount = -4;
+        totalCoins = PlayerPrefs.GetInt("TotalCoins");
         _signalBus.Fire(new ColorBoxSignals.LoadEverything());
     }
     private void OnEnable()
@@ -25,12 +26,13 @@ public class GameManager : MonoBehaviour
         _signalBus.Subscribe<ColorBoxSignals.MoveCounter>(RemainingMoveCounter);
         _signalBus.Subscribe<ColorBoxSignals.CoupleMergeCount>(CompletionProgressBarCalculation);
         _signalBus.Subscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
-        _signalBus.Subscribe<ColorBoxSignals.CoinAddedToBalance>(TotalCoinCalculation);
+        _signalBus.Subscribe<ColorBoxSignals.ClaimedAndCoinAddedToBalance>(TotalCoinCalculation);
     }
 
-    private void TotalCoinCalculation(ColorBoxSignals.CoinAddedToBalance signal)
+    private void TotalCoinCalculation(ColorBoxSignals.ClaimedAndCoinAddedToBalance signal)
     {
-        totalCoins += signal.AddedAmount;
+        var receivedAmount = signal.AddedAmount;
+        totalCoins = receivedAmount + totalCoins;
         PlayerPrefs.SetInt("TotalCoins",totalCoins);
         PlayerPrefs.Save();
     }
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
         _signalBus.Unsubscribe<ColorBoxSignals.MoveCounter>(RemainingMoveCounter);
         _signalBus.Unsubscribe<ColorBoxSignals.CoupleMergeCount>(CompletionProgressBarCalculation);
         _signalBus.Unsubscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
-        _signalBus.Unsubscribe<ColorBoxSignals.CoinAddedToBalance>(TotalCoinCalculation);
+        _signalBus.Unsubscribe<ColorBoxSignals.ClaimedAndCoinAddedToBalance>(TotalCoinCalculation);
     }
     private void Start()
     {
@@ -110,7 +112,6 @@ public class GameManager : MonoBehaviour
     private void OnCoinEarned()
     {
         _coinCount++;
-        
         //saving the balance
         PlayerPrefs.SetInt("PlayerBalance", _coinCount);
         PlayerPrefs.Save();

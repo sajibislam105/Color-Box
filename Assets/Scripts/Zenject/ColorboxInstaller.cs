@@ -10,6 +10,7 @@ namespace Zenject
             Container.Bind<Camera>().FromComponentInHierarchy().AsSingle();
             Container.Bind<GridNodeInformation>().FromComponentInHierarchy().AsSingle();
             Container.Bind<AIDestinationSetterCustom>().FromComponentInHierarchy().AsTransient();
+            Container.Bind<ClaimAnimation>().FromComponentInHierarchy().AsSingle();
             //Container.BindInterfacesAndSelfTo<IInputSystem>().AsSingle();
         
             Container.Bind<NavMeshAgent>().FromComponentSibling().AsTransient();
@@ -32,7 +33,7 @@ namespace Zenject
             Container.DeclareSignal<ColorBoxSignals.RemainingMoves>();
             Container.DeclareSignal<ColorBoxSignals.CoupleMergeCount>();
             Container.DeclareSignal<ColorBoxSignals.CoinEarned>();
-            Container.DeclareSignal<ColorBoxSignals.CoinAddedToBalance>();
+            Container.DeclareSignal<ColorBoxSignals.ClaimedAndCoinAddedToBalance>();
             
         }
     }
