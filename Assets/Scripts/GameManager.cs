@@ -5,20 +5,20 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int availableMoveCountForThisLevel;
     [SerializeField] private int moveCount;
-    private int _remainingMoves;
-    
-    private int _totalAgentsOnScreen;
-    private int _coupleMatchedCount;
-    private int _coinCount;
-
-    private int totalCoins;
-
 
     [Inject] private SignalBus _signalBus;
+    
+    private int _totalAgentsOnScreen;
+    private int _remainingMoves;
+    private int _coupleMatchedCount;
+    private int _coinCount;
+    private int _totalCoins;
+
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         moveCount = -4;
-        totalCoins = PlayerPrefs.GetInt("TotalCoins");
+        _totalCoins = PlayerPrefs.GetInt("TotalCoins");
         _signalBus.Fire(new ColorBoxSignals.LoadEverything());
     }
     private void OnEnable()
@@ -28,15 +28,6 @@ public class GameManager : MonoBehaviour
         _signalBus.Subscribe<ColorBoxSignals.CoinEarned>(OnCoinEarned);
         _signalBus.Subscribe<ColorBoxSignals.ClaimedAndCoinAddedToBalance>(TotalCoinCalculation);
     }
-
-    private void TotalCoinCalculation(ColorBoxSignals.ClaimedAndCoinAddedToBalance signal)
-    {
-        var receivedAmount = signal.AddedAmount;
-        totalCoins = receivedAmount + totalCoins;
-        PlayerPrefs.SetInt("TotalCoins",totalCoins);
-        PlayerPrefs.Save();
-    }
-
     private void OnDisable()
     {
         _signalBus.Unsubscribe<ColorBoxSignals.MoveCounter>(RemainingMoveCounter);
@@ -114,6 +105,13 @@ public class GameManager : MonoBehaviour
         _coinCount++;
         //saving the balance
         PlayerPrefs.SetInt("PlayerBalance", _coinCount);
+        PlayerPrefs.Save();
+    }
+    private void TotalCoinCalculation(ColorBoxSignals.ClaimedAndCoinAddedToBalance signal)
+    {
+        var receivedAmount = signal.AddedAmount;
+        _totalCoins = receivedAmount + _totalCoins;
+        PlayerPrefs.SetInt("TotalCoins",_totalCoins);
         PlayerPrefs.Save();
     }
 }

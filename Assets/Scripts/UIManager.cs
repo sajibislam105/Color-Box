@@ -128,4 +128,23 @@ public class UIManager : MonoBehaviour
         
     }
     
+    public void OnHomeButtonClicked()
+    {
+        //Claim coins and update balance
+        _signalBus.Fire(new ColorBoxSignals.ClaimedAndCoinAddedToBalance()
+        {
+            AddedAmount = _balanceEarnedThisScene
+        });
+        _totalCoins  = PlayerPrefs.GetInt("TotalCoins");
+        currencyScreen.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>().text = _totalCoins.ToString();
+        
+        //reload scene for now
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        Application.Quit();
+    }
 }

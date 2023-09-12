@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &254952832 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8155701706463059883, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+  m_PrefabInstance: {fileID: 6211045302589737261}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef19c2f7d6b7d6458ed692c7741cc6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516726240
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,9 +942,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4380163379484659670, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7181461754389551785, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
       propertyPath: m_Name
       value: Master Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967879638536735165, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.1584473
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 254952832}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768993893144800826, guid: 19eb69a2c2fc74f42ae7ea51d367486b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

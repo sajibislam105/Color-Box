@@ -9,7 +9,7 @@ namespace Input_System
         [Inject] private SignalBus _signalBus;
         private GameObject _selectedGameObject;
         private int _instanceId;
-    
+        
         private void Update()
         {
             InputSystem();
